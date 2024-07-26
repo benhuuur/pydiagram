@@ -1,0 +1,277 @@
+[
+    {
+        "class_name": "JSONDecodeError",
+        "inheritance": [
+            "ValueError"
+        ],
+        "attributes": [
+            {
+                "name": "msg",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "doc",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "pos",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "lineno",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "colno",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self",
+                    "msg",
+                    "doc",
+                    "pos"
+                ],
+                "return_value": null
+            },
+            {
+                "name": "__reduce__",
+                "args": [
+                    "self"
+                ],
+                "return_value": null
+            }
+        ]
+    },
+    {
+        "class_name": "JSONDecoder",
+        "inheritance": [
+            "object"
+        ],
+        "attributes": [
+            {
+                "name": "object_hook",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "parse_float",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "parse_int",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "parse_constant",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "strict",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "object_pairs_hook",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "parse_object",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "parse_array",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "parse_string",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "memo",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "scan_once",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self"
+                ],
+                "return_value": null
+            },
+            {
+                "name": "decode",
+                "args": [
+                    "self",
+                    "s",
+                    "_w"
+                ],
+                "return_value": null
+            },
+            {
+                "name": "raw_decode",
+                "args": [
+                    "self",
+                    "s",
+                    "idx"
+                ],
+                "return_value": null
+            }
+        ]
+    },
+    {
+        "class_name": "JSONEncoder",
+        "inheritance": [
+            "object"
+        ],
+        "attributes": [
+            {
+                "name": "item_separator",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "key_separator",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "skipkeys",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "ensure_ascii",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "check_circular",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "allow_nan",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "sort_keys",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "indent",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "item_separator",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "item_separator",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "key_separator",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "key_separator",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "item_separator",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "default",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "_iterencode",
+                "data_type": null,
+                "encapsulation": "Private"
+            },
+            {
+                "name": "_iterencode",
+                "data_type": null,
+                "encapsulation": "Private"
+            }
+        ],
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self"
+                ],
+                "return_value": null
+            },
+            {
+                "name": "default",
+                "args": [
+                    "self",
+                    "o"
+                ],
+                "return_value": null
+            },
+            {
+                "name": "encode",
+                "args": [
+                    "self",
+                    "o"
+                ],
+                "return_value": null
+            },
+            {
+                "name": "iterencode",
+                "args": [
+                    "self",
+                    "o",
+                    "_one_shot"
+                ],
+                "return_value": null
+            },
+            {
+                "name": "floatstr",
+                "args": [
+                    "o",
+                    "allow_nan",
+                    "_repr",
+                    "_inf",
+                    "_neginf"
+                ],
+                "return_value": null
+            }
+        ]
+    }
+]

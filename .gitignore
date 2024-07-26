@@ -1,0 +1,26 @@
+# Arquivos de byte compilado Python
+*.pyc
+*.pyo
+__pycache__/
+
+# Arquivos de cache do coverage
+.coverage
+.pytest_cache/
+
+# Diretório de ambiente virtual (por exemplo, criado com virtualenv ou pipenv)
+.venv/
+venv/
+env/
+
+# Arquivos de histórico de reunião de dependências
+pip-log.txt
+
+# Arquivos de saída de build
+build/
+
+# Diretório de distribuição
+.dist/
+dist/
+
+# Configuração do editor Visual Studio Code
+.vscode/
