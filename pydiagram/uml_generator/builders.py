@@ -1,9 +1,9 @@
-from pydiagram.src.managers import ElementConfigManager
+from pydiagram.uml_generator.managers import ElementConfigManager
 import xml.etree.ElementTree as ET
 from typing import List, Dict
 
-from pydiagram.src.elements import mxCell, root, mxfile, diagram, mxGraphModel, classStroke, classField, classHeader
-from pydiagram.src.utils import encapsulation_to_signal
+from pydiagram.uml_generator.elements import mxCell, root, mxfile, diagram, mxGraphModel, classStroke, classField, classHeader
+from pydiagram.uml_generator.utils import encapsulation_to_signal
 
 
 class UMLClassBuilder:

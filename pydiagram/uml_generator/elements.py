@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
-from pydiagram.src.managers import ElementConfigManager
-import pydiagram.src.utils as utils
+from pydiagram.uml_generator.managers import ElementConfigManager
+import pydiagram.uml_generator.utils as utils
 
 
 class mxfile(ET.Element):
