@@ -6,6 +6,8 @@ from pydiagram.uml_generator.elements import mxCell, root, mxfile, diagram, mxGr
 from pydiagram.uml_generator.utils import encapsulation_to_signal
 
 
+# class Class()
+
 class UMLClassBuilder:
     def __init__(self, configs: dict):
         self.x = None
@@ -144,3 +146,7 @@ class DrawioDiagramBuilder:
         var_mxfile.append(var_diagram)
 
         return ET.ElementTree(var_mxfile)
+
+
+class Class():
+    
