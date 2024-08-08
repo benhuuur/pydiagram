@@ -1,113 +1,143 @@
-# from pydiagram import DrawioDiagramBuilder, ElementConfigManager, generate_classes_dicts_from_directory, generate_classes_dicts_from_file
-# import json
-
-
-# if __name__ == "__main__":
-#     # Find all Python files in a specified directory and its subdirectories
-#     target_directory = r"C:\Users\Aluno\Desktop\pydiagram\teste.py"
-#     classes_metadata = generate_classes_dicts_from_file(target_directory)
-#     # target_directory = r"C:\Users\Aluno\AppData\Local\Programs\Python\Python312\Lib\json"
-#     # classes_metadata = generate_classes_dicts_from_directory(target_directory)
-
-#     ElementConfigManager(r'pydiagram\configs\elements.json')
-#     manager = ElementConfigManager.get_manager()
-    
-
-#     # json_file = r'resources\json\class.json'
-
-#     # with open(json_file, 'r', encoding='utf-8') as file:
-#     #     classes_metadata = json.load(file)
-
-#     builder = DrawioDiagramBuilder()
-#     for index, metadata in enumerate(classes_metadata):
-#         position = (0 + (index * 170), 0)
-
-#         details = {
-#             "position": position,
-#             "class": metadata,
-#             "width": 160,
-#             "height": None
-#         }
-
-#         builder.append_class(details)
-    
-#     builder.edit_class()
-
-#     xml_diagram = builder.build()
-#     xml_diagram.write(r"output.xml", encoding="utf-8")
-
+from abc import ABC
+from collections import namedtuple
+import json
 import xml.etree.ElementTree as ET
+import uuid
 
-# Your original XML data without a parent
-xml_content = """
-<mxCell id="DFD5oipk4ANFZEnpcnx_-1" value="Classname"
-    style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;"
-    parent="1" vertex="1">
-    <mxGeometry x="10" y="10" width="160" height="86" as="geometry" />
-</mxCell>
-<mxCell id="DFD5oipk4ANFZEnpcnx_-2" value="+ field: type"
-    style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;"
-    parent="DFD5oipk4ANFZEnpcnx_-1" vertex="1">
-    <mxGeometry y="26" width="160" height="26" as="geometry" />
-</mxCell>
-<mxCell id="DFD5oipk4ANFZEnpcnx_-3" value=""
-    style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;"
-    parent="DFD5oipk4ANFZEnpcnx_-1" vertex="1">
-    <mxGeometry y="52" width="160" height="8" as="geometry" />
-</mxCell>
-<mxCell id="DFD5oipk4ANFZEnpcnx_-4" value="+ method(type): type"
-    style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;"
-    parent="DFD5oipk4ANFZEnpcnx_-1" vertex="1">
-    <mxGeometry y="60" width="160" height="26" as="geometry" />
-</mxCell>
+# from pydiagram.uml_generator import utils
+
+if __name__ == "__main__":
+    class Diagram(ET.Element):
+        def __init__(self, name):
+            self.id = uuid.uuid4()
+            self.class_parent = 1
+            root = ET.fromstring(
+                f"""
+<mxfile host="app.diagrams.net" agent="Python Script">
+    <diagram id="{self.id}" name="{name}">
+       <mxGraphModel dx="1434" dy="780" grid="1" gridSize="10" guides="1" tooltips="1" connect="1"
+    arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0"
+    shadow="0">
+            <root>
+                <mxCell id="0" />
+                <mxCell id="{self.class_parent}" parent="0" />
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
 """
+            )
+            super().__init__(root.tag, root.attrib)
+            self.text = root.text
+            self.tail = root.tail
+            self.extend(root)
 
-import xml.etree.ElementTree as ET
+        def append(self, subelement: ET.Element) -> None:
+            real_root = diagram.find('diagram/mxGraphModel/root')
+            if isinstance(subelement, Container):
+                real_root.extend(subelement.elements)
+            real_root.append(subelement)
 
-# Exemplo de XML
-xml_data = '''
-<root>
-    <parent>
-        <child id="1">Value1</child>
-        <child id="2">Value2</child>
-    </parent>
-</root>
-'''
+        #TODO        
+        # def extend(self, elements: ET.Iterable[ET.Element]) -> None:
+        #     real_root = diagram.find('diagram/mxGraphModel/root')
+        #     if any(isinstance(item, Container) for item in array):
+        #             real_root.extend(element.elements)
+        #         real_root.append(element)
 
-root = ET.fromstring(xml_data)
+    class Container(ABC):
+        def __init__(self):
+            self.elements = list()
 
-# Encontrar o elemento que queremos remover do pai
-element_to_remove = root.find(".//child[@id='1']")
+    class Dimensions(namedtuple('Dimensions', ['x', 'y', 'width', 'height'])):
+        # block dicts from this class
+        __slots__ = ()
 
-# Função para encontrar o pai do elemento
-def find_parent(root, element):
-    for parent in root.iter():
-        if element in parent:
-            return parent
-    return None
+        # return tuple
+        def __new__(cls, x, y, width, height):
+            return super(Dimensions, cls).__new__(cls, x, y, width, height)
 
-# Encontrar o pai do elemento
-parent = find_parent(root, element_to_remove)
+    class Class(ET.Element, Container):
+        def __init__(self, metadata: dict, dimensions: Dimensions, parent: any):
+            Container.__init__(self)
+            self.id = f"class-{uuid.uuid4()}"
+            self._children = []
 
-# Se o elemento foi encontrado
-if element_to_remove is not None and parent is not None:
-    # Remover o elemento do pai
-    parent.remove(element_to_remove)
+            for attribute in metadata["attributes"]:
+                y = dimensions.y+26
+                attribute_dimensions = Dimensions(
+                   0, y, dimensions.width, dimensions.height, )
+                self._append_attribute(attribute, attribute_dimensions)
+
+            for attribute in metadata["methods"]:
+                y = dimensions.y+26
+                attribute_dimensions = Dimensions(
+                    0, y, dimensions.width, dimensions.height)
+                self._append_method(attribute, attribute_dimensions)
+
+            self._append_header(metadata, dimensions, parent)
+
+        def _append_attribute(self, metadata: dict, dimensions: Dimensions):
+            name = metadata["name"]
+            # encapsulation = utils.encapsulation_signal(
+            #     metadata["encapsulation"])
+            encapsulation = metadata["encapsulation"]
+            data_type = metadata.get("data_type", "")
+
+            x, y, width, height = dimensions
+
+            attribute = ET.fromstring(f"""
+<mxCell id="attribute-{uuid.uuid4()}-{self.id}" value="{encapsulation} {name}: {data_type}"
+            style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+            parent="{self.id}" vertex="1">
+            <mxGeometry y="{y}" width="{width}" height="{height}" as="geometry" />
+</mxCell>
+            """)
+
+            self.append(attribute)
+
+        def _append_method(self, metadata: dict, dimensions: Dimensions):
+            name = metadata["name"]
+            encapsulation = "TODO"  # TODO
+            args = ", ".join(metadata["args"])
+
+            x, y, width, height = dimensions
+
+            method = ET.fromstring(f"""
+<mxCell id="method-{uuid.uuid4()}-{self.id}" value="{encapsulation} {name}({args})"
+    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+    parent="{self.id}" vertex="1">
+    <mxGeometry y="{y}" width="{width}" height="{height}" as="geometry" />
+</mxCell>
+            """)
+
+            self.append(method)
+
+        def _append_header(self, metadata: dict, dimensions: Dimensions, parent: any):
+            name = metadata["class_name"]
+
+            x, y, width, height = dimensions
+
+            header = ET.fromstring(f"""
+<mxCell id="{self.id}" value="{name}"
+    style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;"
+    parent="{parent}" vertex="1">
+    <mxGeometry x="{x}" y="{y}" width="{width}" height="{height}" as="geometry" />
+</mxCell>
+            """)
+            return header
+
+    diagram = Diagram("pydiagram")
+    with open('class.json', "r") as file:
+        metadata = json.load(file)
+    x=0
+    classes = list()
+    for class_metadata in metadata:
+        dimensions = Dimensions(x,0, 160, 26)
+        classes.append(Class(metadata[0], dimensions, diagram.class_parent))
+        x+=170
     
-    # Adicionar o elemento removido a um novo local, se necessário
-    # Exemplo: adicionar ao elemento root (ou qualquer outro local)
-    root.append(element_to_remove)
+    diagram.extend(classes)
     
-    # Imprimir o resultado
-    new_xml = ET.tostring(root, encoding='unicode')
-    print(new_xml)
-else:
-    print("Elemento ou pai não encontrado")
-
-# class CustomElement(ET.Element):
-    def append(self, obj):
-        if isinstance(obj, MyCustomElements):
-            obj.append_elements(self)
-        else:
-            super().append(obj)
-
+    with open('output.txt', 'w', encoding='utf-8') as file:
+        file.write(ET.tostring(diagram, encoding='unicode'))

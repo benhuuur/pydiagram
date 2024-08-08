@@ -148,5 +148,3 @@ class DrawioDiagramBuilder:
         return ET.ElementTree(var_mxfile)
 
 
-class Class():
-    

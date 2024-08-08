@@ -1,0 +1,159 @@
+<mxfile host="app.diagrams.net" agent="Python Script">
+    <diagram id="297ce2c4-651c-43bd-8ae0-b175a0f77f1b" name="pydiagram">
+        <mxGraphModel dx="1434" dy="780" grid="1" gridSize="10" guides="1" tooltips="1" connect="1"
+            arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0"
+            shadow="0">
+            <root>
+                <mxCell id="0" />
+                <mxCell id="1" parent="0" />
+                <mxCell
+                    id="attribute-ac43ec8d-2957-4353-82bf-3451d191e221-class-0aca88e3-2f6e-4fdc-9316-7044b89e2570"
+                    value="Public msg: None"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-0aca88e3-2f6e-4fdc-9316-7044b89e2570" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="attribute-86106582-e36c-4f92-b584-4f628d067d0e-class-0aca88e3-2f6e-4fdc-9316-7044b89e2570"
+                    value="Public doc: None"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-0aca88e3-2f6e-4fdc-9316-7044b89e2570" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="attribute-b1800408-8bef-422c-83ac-a5bdb72f06aa-class-0aca88e3-2f6e-4fdc-9316-7044b89e2570"
+                    value="Public pos: None"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-0aca88e3-2f6e-4fdc-9316-7044b89e2570" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="attribute-6013f6fd-e6fc-4c95-a7cc-8c677d7ba954-class-0aca88e3-2f6e-4fdc-9316-7044b89e2570"
+                    value="Public lineno: None"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-0aca88e3-2f6e-4fdc-9316-7044b89e2570" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="attribute-80d2836e-3db1-41fc-9110-32295799eb6e-class-0aca88e3-2f6e-4fdc-9316-7044b89e2570"
+                    value="Public colno: None"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-0aca88e3-2f6e-4fdc-9316-7044b89e2570" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="method-6d68b0f3-50a9-4fad-bbc5-040edc904eeb-class-0aca88e3-2f6e-4fdc-9316-7044b89e2570"
+                    value="TODO __init__(self, msg, doc, pos)"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-0aca88e3-2f6e-4fdc-9316-7044b89e2570" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="method-4c39b5a1-9e71-4bc5-bf4a-f0c8d03e4df0-class-0aca88e3-2f6e-4fdc-9316-7044b89e2570"
+                    value="TODO __reduce__(self)"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-0aca88e3-2f6e-4fdc-9316-7044b89e2570" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="attribute-df6903ef-8ef4-4555-a5a0-5c7008c8d68f-class-70127af6-c908-4d78-b27b-d79f08b63e3c"
+                    value="Public msg: None"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-70127af6-c908-4d78-b27b-d79f08b63e3c" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="attribute-a5b4cb92-b722-4d58-8e4c-463ed7c9c144-class-70127af6-c908-4d78-b27b-d79f08b63e3c"
+                    value="Public doc: None"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-70127af6-c908-4d78-b27b-d79f08b63e3c" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="attribute-fe27610f-22b6-437e-925d-fa87cb4b7fa0-class-70127af6-c908-4d78-b27b-d79f08b63e3c"
+                    value="Public pos: None"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-70127af6-c908-4d78-b27b-d79f08b63e3c" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="attribute-877bd09e-0b98-4ee6-a0ff-51abf57d38a5-class-70127af6-c908-4d78-b27b-d79f08b63e3c"
+                    value="Public lineno: None"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-70127af6-c908-4d78-b27b-d79f08b63e3c" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="attribute-43b39b3c-96c9-4cf7-af0a-a1c15e33354a-class-70127af6-c908-4d78-b27b-d79f08b63e3c"
+                    value="Public colno: None"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-70127af6-c908-4d78-b27b-d79f08b63e3c" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="method-381b32f6-c899-40f6-b2ba-22fb7f9faa8b-class-70127af6-c908-4d78-b27b-d79f08b63e3c"
+                    value="TODO __init__(self, msg, doc, pos)"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-70127af6-c908-4d78-b27b-d79f08b63e3c" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="method-19240dd2-e2b3-460e-85af-eb4c4a74e64f-class-70127af6-c908-4d78-b27b-d79f08b63e3c"
+                    value="TODO __reduce__(self)"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-70127af6-c908-4d78-b27b-d79f08b63e3c" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="attribute-c94c6b08-e1c7-466f-902e-14b5ef385b4c-class-0fc3a21d-e636-4e61-a473-b38ae8145f84"
+                    value="Public msg: None"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-0fc3a21d-e636-4e61-a473-b38ae8145f84" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="attribute-e133d8eb-2b46-4fcd-b0fd-ab6286bf7ede-class-0fc3a21d-e636-4e61-a473-b38ae8145f84"
+                    value="Public doc: None"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-0fc3a21d-e636-4e61-a473-b38ae8145f84" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="attribute-7a8819ee-0494-4120-9a06-4b3ae74ff611-class-0fc3a21d-e636-4e61-a473-b38ae8145f84"
+                    value="Public pos: None"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-0fc3a21d-e636-4e61-a473-b38ae8145f84" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="attribute-a6c8df25-1b14-4060-8301-d5ffde05cb94-class-0fc3a21d-e636-4e61-a473-b38ae8145f84"
+                    value="Public lineno: None"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-0fc3a21d-e636-4e61-a473-b38ae8145f84" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="attribute-ce4772bd-9579-4f74-a1d9-d53072a95dbb-class-0fc3a21d-e636-4e61-a473-b38ae8145f84"
+                    value="Public colno: None"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-0fc3a21d-e636-4e61-a473-b38ae8145f84" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="method-3307795e-1a46-454e-9c0f-99e28e6f20d7-class-0fc3a21d-e636-4e61-a473-b38ae8145f84"
+                    value="TODO __init__(self, msg, doc, pos)"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-0fc3a21d-e636-4e61-a473-b38ae8145f84" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+                <mxCell
+                    id="method-aa44f611-9346-4599-a08f-46dc192a818e-class-0fc3a21d-e636-4e61-a473-b38ae8145f84"
+                    value="TODO __reduce__(self)"
+                    style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
+                    parent="class-0fc3a21d-e636-4e61-a473-b38ae8145f84" vertex="1">
+                    <mxGeometry y="26" width="160" height="26" as="geometry" />
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

@@ -1,4 +1,5 @@
 import json
+from typing import Optional
 import xml.etree.ElementTree as ET
 
 
@@ -22,7 +23,7 @@ def save_xml(xml_content: ET.ElementTree, filename):
     xml_content.write(filename, encoding="utf-8")
 
 
-def encapsulation_to_signal(encapsulation: str):
+def encapsulation_signal(encapsulation: str):
     if encapsulation == "Public":
         return "+"
     return "-"

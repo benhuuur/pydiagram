@@ -3,6 +3,7 @@ from pydiagram.uml_generator.managers import ElementConfigManager
 import pydiagram.uml_generator.utils as utils
 
 
+
 class mxfile(ET.Element):
     _attributes = ["host", "agent"]
 
@@ -12,6 +13,13 @@ class mxfile(ET.Element):
         else:
             raise Exception("Invalid Attibutes")
 
+class Diagram(ET.Element):
+    def __init__(self, xml_string):
+        root = ET.fromstring(xml_string)
+        super().__init__(root.tag, root.attrib)
+        self.text = root.text
+        self.tail = root.tail
+        self.extend(root)
 
 class diagram(ET.Element):
     _attributes = ["id", "name"]
