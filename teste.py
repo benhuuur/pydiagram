@@ -5,7 +5,7 @@ class A:
     def method(self):
         print("A's method")
 
-class B:
+class B(A):
     def __init__(self):
         print("B's __init__")
     

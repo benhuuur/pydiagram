@@ -1,5 +1,5 @@
 import json
-from typing import Optional
+from typing import List, Optional
 import xml.etree.ElementTree as ET
 
 
