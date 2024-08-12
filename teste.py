@@ -14,6 +14,7 @@ class B(A):
 
 class C(A, B):
     def __init__(self):
+        self.id = "benhur"
         super(C, self).__init__()
         print("C's __init__")
     

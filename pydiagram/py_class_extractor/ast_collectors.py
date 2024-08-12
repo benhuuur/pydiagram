@@ -158,12 +158,13 @@ class ClassDefInspector(ast.NodeVisitor):
         - str: The name of the visited attribute.
         """
         if isinstance(node.value, ast.Name):
-            if self.current_assign and (self.current_function is None or 
+            if self.current_assign and (self.current_function is None or
                 (self.current_function.name == "__init__" and isinstance(self.current_assign, (ast.Assign, ast.AnnAssign)))):
                 attribute_name = node.attr
                 self.attributes.append(AttributeInformation(
-                    name=attribute_name, 
-                    encapsulation=self._determine_encapsulation(attribute_name), 
+                    name=attribute_name,
+                    encapsulation=self._determine_encapsulation(
+                        attribute_name),
                     data_type=None
                 ))
             return node.attr
@@ -180,12 +181,12 @@ class ClassDefInspector(ast.NodeVisitor):
         Returns:
         - str: The identifier of the visited name.
         """
-        if self.current_assign and (self.current_function is None or 
+        if self.current_assign and (self.current_function is None or
             (self.current_function.name == "__init__" and isinstance(self.current_assign, ast.Attribute))):
             attribute_name = node.id
             self.attributes.append(AttributeInformation(
-                name=attribute_name, 
-                encapsulation=self._determine_encapsulation(attribute_name), 
+                name=attribute_name,
+                encapsulation=self._determine_encapsulation(attribute_name),
                 data_type=None
             ))
 
@@ -213,7 +214,8 @@ class ClassDefInspector(ast.NodeVisitor):
         Returns:
         - list: List of values in the tuple.
         """
-        values = [self.visit(elt) for elt in node.elts if self.visit(elt) is not None]
+        values = [self.visit(elt)
+                             for elt in node.elts if self.visit(elt) is not None]
         return values
 
     def visit_arg(self, node: ast.arg) -> ast.arg:
@@ -349,6 +351,10 @@ class RelationshipInspector(ast.NodeVisitor):
         Returns:
         - str: String representation of the visited Tuple node.
         """
+        values = ", ".join(self.visit(elt) for elt in node.elts)
+        return f"({values})"
+
+    def visit_List(self, node: ast.List) -> str:
         values = ", ".join(self.visit(elt) for elt in node.elts)
         return f"({values})"
 
