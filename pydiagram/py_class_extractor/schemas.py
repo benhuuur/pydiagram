@@ -32,6 +32,7 @@ class RelationshipInformation:
     Data class to store information about a UML relationship.
     """
     type: str
+    related_module: Tuple[str]
     related: str
 
 

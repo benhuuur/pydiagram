@@ -20,12 +20,14 @@ def process_file(file_path: str, base_module_name: str) -> list:
     import_aliases = pydiagram.py_class_extractor.ast_management.extract_alias_imports(ast_tree)
     class_nodes = pydiagram.py_class_extractor.ast_management.extract_class_nodes(ast_tree)
     
-    class_metadata_list = []
-    for class_node in class_nodes:
-        class_metadata = pydiagram.py_class_extractor.ast_management.get_class_metadata(class_node, import_aliases)
-        class_metadata.modules = pydiagram.py_class_extractor.utils.extract_sublist_between(
+    modules = pydiagram.py_class_extractor.utils.extract_sublist_between(
             pydiagram.py_class_extractor.utils.split_path(file_path), base_module_name
         )
+    
+    class_metadata_list = []
+    for class_node in class_nodes:
+        class_metadata = pydiagram.py_class_extractor.ast_management.get_class_metadata(class_node, import_aliases, modules)
+        class_metadata.modules = modules
         class_metadata_list.append(class_metadata)
     
     return class_metadata_list

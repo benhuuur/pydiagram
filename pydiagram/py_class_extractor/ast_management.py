@@ -86,14 +86,14 @@ def extract_alias_imports(tree: ast.AST) -> dict:
     collector.visit(tree)
     imports = collector.imports
 
-    visitor = ast_collectors.AliasCollector()
+    visitor = ast_collectors.AliasInspector()
     for import_node in imports:
         visitor.visit(import_node)
 
     return visitor.alias_import
 
 
-def get_class_metadata(class_node: ast.ClassDef, alias: dict) -> ClassInformation:
+def get_class_metadata(class_node: ast.ClassDef, alias: dict, current_module: list) -> ClassInformation:
     """
     Retrieves metadata for a class node from an Abstract Syntax Tree (AST).
 
@@ -126,7 +126,7 @@ def get_class_metadata(class_node: ast.ClassDef, alias: dict) -> ClassInformatio
     visitor = ast_collectors.ClassDefInspector()
     current_class_data: ClassInformation = visitor.visit(class_node)
 
-    analyzer = ast_collectors.RelationshipInspector(alias)
+    analyzer = ast_collectors.RelationshipInspector(alias, current_module)
     current_class_data.relationships = analyzer.visit(class_node)
 
     return current_class_data

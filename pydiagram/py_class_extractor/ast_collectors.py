@@ -159,7 +159,7 @@ class ClassDefInspector(ast.NodeVisitor):
         """
         if isinstance(node.value, ast.Name):
             if self.current_assign and (self.current_function is None or
-                (self.current_function.name == "__init__" and isinstance(self.current_assign, (ast.Assign, ast.AnnAssign)))):
+                                        (self.current_function.name == "__init__" and isinstance(self.current_assign, (ast.Assign, ast.AnnAssign)))):
                 attribute_name = node.attr
                 self.attributes.append(AttributeInformation(
                     name=attribute_name,
@@ -182,7 +182,7 @@ class ClassDefInspector(ast.NodeVisitor):
         - str: The identifier of the visited name.
         """
         if self.current_assign and (self.current_function is None or
-            (self.current_function.name == "__init__" and isinstance(self.current_assign, ast.Attribute))):
+                                    (self.current_function.name == "__init__" and isinstance(self.current_assign, ast.Attribute))):
             attribute_name = node.id
             self.attributes.append(AttributeInformation(
                 name=attribute_name,
@@ -215,7 +215,7 @@ class ClassDefInspector(ast.NodeVisitor):
         - list: List of values in the tuple.
         """
         values = [self.visit(elt)
-                             for elt in node.elts if self.visit(elt) is not None]
+                  for elt in node.elts if self.visit(elt) is not None]
         return values
 
     def visit_arg(self, node: ast.arg) -> ast.arg:
@@ -248,10 +248,11 @@ class ClassDefInspector(ast.NodeVisitor):
 
 
 class RelationshipInspector(ast.NodeVisitor):
-    def __init__(self, alias: dict) -> None:
+    def __init__(self, alias: dict, current_module: list) -> None:
         self.alias = alias if alias else dict()
         self.relationships = list()
         self.current_inheritance: ast.AST = None
+        self.current_module = current_module
 
     def visit_ClassDef(self, node: ast.ClassDef):
         """
@@ -265,15 +266,28 @@ class RelationshipInspector(ast.NodeVisitor):
         """
         for base in node.bases:
             self.current_inheritance = base
-            inheritance = self.visit(base)
-            if inheritance in self.alias.values():
+            inheritance_string = self.visit(base)
+            splited_inheritance = inheritance_string.split(".")
+            splited_inheritance = [self.alias.get(
+                component, component) for component in splited_inheritance]
+
+            updated_inheritance_string = ".".join(splited_inheritance)
+
+            splited_updated_inheritance_string = updated_inheritance_string.split(
+                ".")
+
+            if "XmlElementFromString" == splited_updated_inheritance_string[-1]:
+                print("io")
+
+            if len(splited_updated_inheritance_string) > 1:
                 self.relationships.append(RelationshipInformation(
-                    type="inheritance", related=self.alias[inheritance]
+                    type="inheritance", related=splited_updated_inheritance_string[-1], related_module=splited_updated_inheritance_string[:-1]
                 ))
             else:
                 self.relationships.append(RelationshipInformation(
-                    type="inheritance", related=inheritance
+                    type="inheritance", related=updated_inheritance_string, related_module=self.current_module
                 ))
+
             self.current_inheritance = None
         return tuple(self.relationships)
 
@@ -382,7 +396,7 @@ class ImportCollector(ast.NodeVisitor):
         self.imports.append(node)
 
 
-class AliasCollector(ast.NodeVisitor):
+class AliasInspector(ast.NodeVisitor):
     def __init__(self) -> None:
         self.alias_import = dict()
 
@@ -395,8 +409,7 @@ class AliasCollector(ast.NodeVisitor):
         """
         for name in node.names:
             alias_import = self.visit(name)
-            if alias_import:
-                self.alias_import.update(alias_import)
+            self.alias_import.update(alias_import)
 
     def visit_ImportFrom(self, node: ast.ImportFrom) -> None:
         """
@@ -407,8 +420,9 @@ class AliasCollector(ast.NodeVisitor):
         """
         for name in node.names:
             alias_import = self.visit(name)
-            if alias_import:
-                self.alias_import.update(alias_import)
+            for key in alias_import.keys():
+                alias_import[key] = node.module + "." + alias_import[key]
+            self.alias_import.update(alias_import)
 
     def visit_alias(self, node: ast.alias) -> dict:
         """
@@ -422,3 +436,4 @@ class AliasCollector(ast.NodeVisitor):
         """
         if node.asname:
             return {node.asname: node.name}
+        return {node.name: node.name}

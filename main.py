@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 
 from pydiagram.py_class_extractor import generate_classes_dicts_from_file, generate_classes_dicts_from_directory
+from pydiagram.py_class_extractor.file_management import save_data_to_json
 from pydiagram.uml_generator.builders.relationships import RelationshipBuilder
 from pydiagram.uml_generator.elements import DrawIODiagram, UMLClassDiagramElement
 from pydiagram.uml_generator.relationships import InheritanceRelationship
@@ -13,6 +14,7 @@ if __name__ == "__main__":
     diagram = DrawIODiagram("pydiagram")
     metadata = generate_classes_dicts_from_directory(
         r"C:\Users\Aluno\Desktop\pydiagram")
+    save_data_to_json("class.json", metadata)
     # with open('class.json', "r") as file:
     #     metadata = json.load(file)
     x = 0
