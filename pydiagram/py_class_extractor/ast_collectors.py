@@ -276,9 +276,6 @@ class RelationshipInspector(ast.NodeVisitor):
             splited_updated_inheritance_string = updated_inheritance_string.split(
                 ".")
 
-            if "XmlElementFromString" == splited_updated_inheritance_string[-1]:
-                print("io")
-
             if len(splited_updated_inheritance_string) > 1:
                 self.relationships.append(RelationshipInformation(
                     type="inheritance", related=splited_updated_inheritance_string[-1], related_module=splited_updated_inheritance_string[:-1]
@@ -421,6 +418,7 @@ class AliasInspector(ast.NodeVisitor):
         for name in node.names:
             alias_import = self.visit(name)
             for key in alias_import.keys():
+                
                 alias_import[key] = node.module + "." + alias_import[key]
             self.alias_import.update(alias_import)
 

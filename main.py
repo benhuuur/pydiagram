@@ -1,17 +1,20 @@
 import xml.etree.ElementTree as ET
 
-from pydiagram.py_class_extractor import generate_classes_dicts_from_file, generate_classes_dicts_from_directory
+from pydiagram.py_class_extractor import generate_classes_dicts_from_directory, generate_classes_dicts_from_file
 from pydiagram.py_class_extractor.file_management import save_data_to_json
 from pydiagram.uml_generator.builders.relationships import RelationshipBuilder
 from pydiagram.uml_generator.elements import DrawIODiagram, UMLClassDiagramElement
 from pydiagram.uml_generator.relationships import InheritanceRelationship
 from pydiagram.uml_generator.utils import Dimensions
 
-# from pydiagram.uml_generator import utils
+def has_common_element(arr1, arr2):
+    return bool(set(arr1) & set(arr2))
 
 if __name__ == "__main__":
 
     diagram = DrawIODiagram("pydiagram")
+    metadata = generate_classes_dicts_from_file(
+        r"C:\Users\Aluno\Desktop\pydiagram\teste.py")
     metadata = generate_classes_dicts_from_directory(
         r"C:\Users\Aluno\Desktop\pydiagram")
     save_data_to_json("class.json", metadata)
@@ -36,14 +39,14 @@ if __name__ == "__main__":
             if relationship["type"] == "inheritance":
                 flag = True
                 for target_index, target_class_metadata in enumerate(metadata):
-                    if relationship["related"] == target_class_metadata["name"]:
+                    if (relationship["related"] == target_class_metadata["name"]) and has_common_element(relationship["related_module"], target_class_metadata["modules"]):
                         relationships.append(builder.build(
                             InheritanceRelationship, classes[target_index].id))
                         flag = False
                         break
                 if flag:
                     import_metadata = {
-                        "modules": [],
+                        "modules": relationship["related_module"],
                         "name": relationship["related"],
                         "relationships": [],
                         "attributes": [],
