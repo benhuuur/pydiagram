@@ -7,8 +7,10 @@ from pydiagram.uml_generator.elements import DrawIODiagram, UMLClassDiagramEleme
 from pydiagram.uml_generator.relationships import InheritanceRelationship
 from pydiagram.uml_generator.utils import Dimensions
 
+
 def has_common_element(arr1, arr2):
     return bool(set(arr1) & set(arr2))
+
 
 if __name__ == "__main__":
 

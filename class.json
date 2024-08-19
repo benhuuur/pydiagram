@@ -58,6 +58,107 @@
                     "ast"
                 ],
                 "related": "NodeVisitor"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "ClassDef"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "FunctionDef"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "AST"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "ClassDef"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "FunctionDef"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "AsyncFunctionDef"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "AnnAssign"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "Assign"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "Attribute"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "Name"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "Constant"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "Tuple"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "arg"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "ast_collectors"
+                ],
+                "related": "str"
             }
         ],
         "attributes": [
@@ -212,6 +313,113 @@
                     "ast"
                 ],
                 "related": "NodeVisitor"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "ast_collectors"
+                ],
+                "related": "dict"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "ast_collectors"
+                ],
+                "related": "list"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "ast_collectors"
+                ],
+                "related": "list"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "AST"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "ClassDef"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "AnnAssign"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "Attribute"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "Subscript"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "Name"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "Call"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "Constant"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "Tuple"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "List"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "arg"
             }
         ],
         "attributes": [
@@ -234,6 +442,11 @@
                 "name": "current_module",
                 "data_type": null,
                 "encapsulation": "Public"
+            },
+            {
+                "name": "classes",
+                "data_type": null,
+                "encapsulation": "Public"
             }
         ],
         "methods": [
@@ -242,13 +455,23 @@
                 "args": [
                     "self",
                     "alias",
-                    "current_module"
+                    "current_module",
+                    "classes"
                 ],
                 "return_value": null,
                 "encapsulation": "Public"
             },
             {
                 "name": "visit_ClassDef",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_AnnAssign",
                 "args": [
                     "self",
                     "node"
@@ -318,6 +541,24 @@
                 ],
                 "return_value": null,
                 "encapsulation": "Public"
+            },
+            {
+                "name": "visit_arg",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "_update_name",
+                "args": [
+                    "self",
+                    "qualified_name"
+                ],
+                "return_value": null,
+                "encapsulation": "Private"
             }
         ]
     },
@@ -336,6 +577,20 @@
                     "ast"
                 ],
                 "related": "NodeVisitor"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "Import"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "ImportFrom"
             }
         ],
         "attributes": [
@@ -389,6 +644,27 @@
                     "ast"
                 ],
                 "related": "NodeVisitor"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "Import"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "ImportFrom"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "ast"
+                ],
+                "related": "alias"
             }
         ],
         "attributes": [
@@ -473,7 +749,38 @@
             "py_class_extractor",
             "schemas"
         ],
-        "relationships": [],
+        "relationships": [
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "schemas"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "schemas"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "schemas"
+                ],
+                "related": "str"
+            }
+        ],
         "attributes": [
             {
                 "name": "name",
@@ -501,7 +808,45 @@
             "py_class_extractor",
             "schemas"
         ],
-        "relationships": [],
+        "relationships": [
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "schemas"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "schemas"
+                ],
+                "related": "Tuple[str]"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "typing"
+                ],
+                "related": "Any"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "schemas"
+                ],
+                "related": "str"
+            }
+        ],
         "attributes": [
             {
                 "name": "name",
@@ -534,7 +879,38 @@
             "py_class_extractor",
             "schemas"
         ],
-        "relationships": [],
+        "relationships": [
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "schemas"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "schemas"
+                ],
+                "related": "Tuple[str]"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "schemas"
+                ],
+                "related": "str"
+            }
+        ],
         "attributes": [
             {
                 "name": "type",
@@ -571,6 +947,56 @@
                     "file_management"
                 ],
                 "related": "SerializableToDict"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "schemas"
+                ],
+                "related": "Tuple[str]"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "schemas"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "schemas"
+                ],
+                "related": "Tuple[RelationshipInformation]"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "schemas"
+                ],
+                "related": "Tuple[AttributeInformation]"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "schemas"
+                ],
+                "related": "Tuple[FunctionInformation]"
             }
         ],
         "attributes": [
@@ -628,6 +1054,16 @@
                     "ElementTree"
                 ],
                 "related": "Element"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "base"
+                ],
+                "related": "str"
             }
         ],
         "attributes": [
@@ -669,6 +1105,36 @@
                     "abc"
                 ],
                 "related": "ABC"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "base"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "base"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "base"
+                ],
+                "related": "str"
             }
         ],
         "attributes": [],
@@ -695,7 +1161,39 @@
             "builders",
             "elements"
         ],
-        "relationships": [],
+        "relationships": [
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "builders",
+                    "elements"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "builders",
+                    "elements"
+                ],
+                "related": "Dict[(str, Any)]"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "uml_generator",
+                    "utils"
+                ],
+                "related": "Dimensions"
+            }
+        ],
         "attributes": [
             {
                 "name": "class_id",
@@ -734,7 +1232,28 @@
             "builders",
             "elements"
         ],
-        "relationships": [],
+        "relationships": [
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "builders",
+                    "elements"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "uml_generator",
+                    "utils"
+                ],
+                "related": "Dimensions"
+            }
+        ],
         "attributes": [
             {
                 "name": "class_id",
@@ -772,7 +1291,39 @@
             "builders",
             "elements"
         ],
-        "relationships": [],
+        "relationships": [
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "builders",
+                    "elements"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "builders",
+                    "elements"
+                ],
+                "related": "Dict[(str, Any)]"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "uml_generator",
+                    "utils"
+                ],
+                "related": "Dimensions"
+            }
+        ],
         "attributes": [
             {
                 "name": "class_id",
@@ -811,7 +1362,39 @@
             "builders",
             "relationships"
         ],
-        "relationships": [],
+        "relationships": [
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "builders",
+                    "relationships"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "builders",
+                    "relationships"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "uml_generator",
+                    "base"
+                ],
+                "related": "UMLRelationship"
+            }
+        ],
         "attributes": [
             {
                 "name": "parent",
@@ -862,6 +1445,15 @@
                     "base"
                 ],
                 "related": "XmlElementFromString"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "xml",
+                    "etree",
+                    "ElementTree"
+                ],
+                "related": "Element"
             }
         ],
         "attributes": [
@@ -923,6 +1515,45 @@
                     "ElementTree"
                 ],
                 "related": "Element"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ],
+                "related": "dict"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "uml_generator",
+                    "utils"
+                ],
+                "related": "Dimensions"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ],
+                "related": "any"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ],
+                "related": "ClassHeader"
             }
         ],
         "attributes": [
@@ -984,6 +1615,46 @@
                     "base"
                 ],
                 "related": "XmlElementFromString"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ],
+                "related": "tuple"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ],
+                "related": "str"
             }
         ],
         "attributes": [],
@@ -1017,6 +1688,56 @@
                     "base"
                 ],
                 "related": "XmlElementFromString"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ],
+                "related": "tuple"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ],
+                "related": "str"
             }
         ],
         "attributes": [],
@@ -1051,6 +1772,26 @@
                     "base"
                 ],
                 "related": "XmlElementFromString"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ],
+                "related": "tuple"
             }
         ],
         "attributes": [],
@@ -1082,6 +1823,56 @@
                     "base"
                 ],
                 "related": "XmlElementFromString"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ],
+                "related": "tuple"
             }
         ],
         "attributes": [],
@@ -1123,6 +1914,36 @@
                     "base"
                 ],
                 "related": "UMLRelationship"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "relationships"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "relationships"
+                ],
+                "related": "str"
+            },
+            {
+                "type": "association",
+                "related_module": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "relationships"
+                ],
+                "related": "str"
             }
         ],
         "attributes": [],
