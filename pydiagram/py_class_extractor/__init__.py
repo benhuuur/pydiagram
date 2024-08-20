@@ -32,12 +32,12 @@ def process_file(file_path: str, base_module_name: str) -> list:
     for class_node in class_nodes:
         class_info = pydiagram.py_class_extractor.ast_management.get_class_metadata(
             class_node)
+        class_info.modules = modules
         classes_info.append(class_info)
 
     for index, class_info in enumerate(classes_info):
-        class_info.modules = modules
         analyzer = pydiagram.py_class_extractor.ast_collectors.RelationshipInspector(
-            import_aliases, modules, classes_info)
+            import_aliases, classes_info)
         class_info.relationships = analyzer.visit(class_nodes[index])
         # print(class_metadata)
 

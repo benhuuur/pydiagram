@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 
 from pydiagram.py_class_extractor import generate_classes_dicts_from_directory, generate_classes_dicts_from_file
+from pydiagram.py_class_extractor.ast_management import parse_ast_from_file
 from pydiagram.py_class_extractor.file_management import save_data_to_json
 from pydiagram.uml_generator.builders.relationships import RelationshipBuilder
 from pydiagram.uml_generator.elements import DrawIODiagram, UMLClassDiagramElement
@@ -13,6 +14,8 @@ def has_common_element(arr1, arr2):
 
 
 if __name__ == "__main__":
+    ast = parse_ast_from_file(
+        r"pydiagram\py_class_extractor\schemas.py")
 
     diagram = DrawIODiagram("pydiagram")
     metadata = generate_classes_dicts_from_file(

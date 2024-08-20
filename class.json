@@ -152,12 +152,7 @@
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "ast_collectors"
-                ],
+                "related_module": [],
                 "related": "str"
             }
         ],
@@ -316,32 +311,12 @@
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "ast_collectors"
-                ],
+                "related_module": [],
                 "related": "dict"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "ast_collectors"
-                ],
-                "related": "list"
-            },
-            {
-                "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "ast_collectors"
-                ],
+                "related_module": [],
                 "related": "list"
             },
             {
@@ -439,12 +414,7 @@
                 "encapsulation": "Public"
             },
             {
-                "name": "current_module",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "classes",
+                "name": "classes_info",
                 "data_type": null,
                 "encapsulation": "Public"
             }
@@ -455,8 +425,7 @@
                 "args": [
                     "self",
                     "alias",
-                    "current_module",
-                    "classes"
+                    "classes_info"
                 ],
                 "return_value": null,
                 "encapsulation": "Public"
@@ -752,32 +721,17 @@
         "relationships": [
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "schemas"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "schemas"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "schemas"
-                ],
+                "related_module": [],
                 "related": "str"
             }
         ],
@@ -811,22 +765,12 @@
         "relationships": [
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "schemas"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "schemas"
-                ],
+                "related_module": [],
                 "related": "Tuple[str]"
             },
             {
@@ -838,12 +782,7 @@
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "schemas"
-                ],
+                "related_module": [],
                 "related": "str"
             }
         ],
@@ -882,32 +821,17 @@
         "relationships": [
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "schemas"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "schemas"
-                ],
+                "related_module": [],
                 "related": "Tuple[str]"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "schemas"
-                ],
+                "related_module": [],
                 "related": "str"
             }
         ],
@@ -950,52 +874,27 @@
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "schemas"
-                ],
+                "related_module": [],
                 "related": "Tuple[str]"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "schemas"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "schemas"
-                ],
+                "related_module": [],
                 "related": "Tuple[RelationshipInformation]"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "schemas"
-                ],
+                "related_module": [],
                 "related": "Tuple[AttributeInformation]"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "schemas"
-                ],
+                "related_module": [],
                 "related": "Tuple[FunctionInformation]"
             }
         ],
@@ -1057,12 +956,7 @@
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "base"
-                ],
+                "related_module": [],
                 "related": "str"
             }
         ],
@@ -1108,32 +1002,17 @@
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "base"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "base"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "base"
-                ],
+                "related_module": [],
                 "related": "str"
             }
         ],
@@ -1164,24 +1043,12 @@
         "relationships": [
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "builders",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "builders",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "Dict[(str, Any)]"
             },
             {
@@ -1235,13 +1102,7 @@
         "relationships": [
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "builders",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
@@ -1294,24 +1155,12 @@
         "relationships": [
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "builders",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "builders",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "Dict[(str, Any)]"
             },
             {
@@ -1365,24 +1214,12 @@
         "relationships": [
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "builders",
-                    "relationships"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "builders",
-                    "relationships"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
@@ -1518,12 +1355,7 @@
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "dict"
             },
             {
@@ -1537,12 +1369,7 @@
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "any"
             },
             {
@@ -1618,42 +1445,22 @@
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "tuple"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "str"
             }
         ],
@@ -1691,52 +1498,27 @@
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "tuple"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "str"
             }
         ],
@@ -1775,22 +1557,12 @@
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "tuple"
             }
         ],
@@ -1826,52 +1598,27 @@
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "elements"
-                ],
+                "related_module": [],
                 "related": "tuple"
             }
         ],
@@ -1917,32 +1664,17 @@
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "relationships"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "relationships"
-                ],
+                "related_module": [],
                 "related": "str"
             },
             {
                 "type": "association",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "relationships"
-                ],
+                "related_module": [],
                 "related": "str"
             }
         ],
@@ -1972,12 +1704,7 @@
         "relationships": [
             {
                 "type": "inheritance",
-                "related_module": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "utils"
-                ],
+                "related_module": [],
                 "related": "namedtuple(Dimensions, (x, y, width, height))"
             }
         ],

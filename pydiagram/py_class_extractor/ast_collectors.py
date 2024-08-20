@@ -248,11 +248,10 @@ class ClassDefInspector(ast.NodeVisitor):
 
 
 class RelationshipInspector(ast.NodeVisitor):
-    def __init__(self, alias: dict, current_module: list, classes_info: list) -> None:
+    def __init__(self, alias: dict, classes_info: list) -> None:
         self.alias = alias if alias else dict()
         self.relationships = list()
         self.current_inheritance: ast.AST = None
-        self.current_module = current_module
         self.classes_info = classes_info
 
     def visit_ClassDef(self, node: ast.ClassDef):
@@ -272,44 +271,50 @@ class RelationshipInspector(ast.NodeVisitor):
             splited_updated_inheritance_string = updated_inheritance_string.split(
                 ".")
 
-            for class_info in self.classes_info:
-                if class_info.name == splited_updated_inheritance_string[-1]:
-                    if class_info.modules == splited_updated_inheritance_string[:-1]:
-                        RelationshipInformation(
-                            type="inheritance", related=class_info.modules, related_module=class_info.name
-                        )
-                    elif class_info.modules == splited_updated_inheritance_string[:-1]:
-                        RelationshipInformation(
-                            type="inheritance", related=class_info.modules, related_module=class_info.name
-                        )
+            inheritance_name = splited_updated_inheritance_string[-1]
+            inheritance_modules = splited_updated_inheritance_string[:-1]
 
-            if len(splited_updated_inheritance_string) > 1:
-                self.relationships.append(RelationshipInformation(
-                    type="inheritance", related=splited_updated_inheritance_string[-1], related_module=splited_updated_inheritance_string[:-1]
-                ))
+            if any(class_info.name == inheritance_name for class_info in self.classes_info):
+                for class_info in self.classes_info:
+                    if class_info.name == inheritance_name:
+                        self.relationships.append(RelationshipInformation(
+                            type="inheritance", related=class_info.name, related_module=class_info.modules
+                        ))
+                        break
+
             else:
                 self.relationships.append(RelationshipInformation(
-                    type="inheritance", related=updated_inheritance_string, related_module=self.current_module
+                    type="inheritance", related=inheritance_name, related_module=inheritance_modules
                 ))
 
             self.current_inheritance = None
 
         self.generic_visit(node)
+
         return tuple(self.relationships)
 
     def visit_AnnAssign(self, node: ast.AnnAssign) -> ast.AnnAssign:
-        association = self.visit(node.annotation)
-        updated_association = self._update_name(association)
-        splited_updated_association = updated_association.split(
+        association_string = self.visit(node.annotation)
+        updated_association_string = self._update_name(association_string)
+        splited_updated_association_string = updated_association_string.split(
             ".")
-        if len(splited_updated_association) > 1:
-            self.relationships.append(RelationshipInformation(
-                type="association", related=splited_updated_association[-1], related_module=splited_updated_association[:-1]
-            ))
+
+        association_name = splited_updated_association_string[-1]
+        association_modules = splited_updated_association_string[:-1]
+
+        if any(class_info.name == association_name for class_info in self.classes_info):
+            for class_info in self.classes_info:
+                if class_info.name == association_name:
+                    self.relationships.append(RelationshipInformation(
+                        type="association", related=class_info.name, related_module=class_info.modules
+                    ))
+                    break
+
         else:
             self.relationships.append(RelationshipInformation(
-                type="association", related=updated_association, related_module=self.current_module
+                type="association", related=association_name, related_module=association_modules
             ))
+
         return node
 
     def visit_Attribute(self, node: ast.Attribute) -> str:
@@ -360,14 +365,30 @@ class RelationshipInspector(ast.NodeVisitor):
         """
         function_name = self.visit(node.func)
         args = ", ".join(str(self.visit(arg)) for arg in node.args)
+
         if self.current_inheritance:
             return f"{function_name}({args})"
-        else:
-            for class_info in self.classes:
-                if function_name == class_info.name:
+
+        association_string = function_name
+        updated_association_string = self._update_name(association_string)
+        splited_updated_association_string = updated_association_string.split(
+            ".")
+
+        association_name = splited_updated_association_string[-1]
+
+        if any(class_info.name == association_name for class_info in self.classes_info):
+            for class_info in self.classes_info:
+                if class_info.name == association_name:
                     self.relationships.append(RelationshipInformation(
                         type="association", related=class_info.name, related_module=class_info.modules
                     ))
+                    break
+
+        # else:
+        #     self.relationships.append(RelationshipInformation(
+        #         type="association", related=association_name, related_module=association_modules
+        #     ))
+
         return node
 
     def visit_Constant(self, node: ast.Constant) -> str:
@@ -401,18 +422,27 @@ class RelationshipInspector(ast.NodeVisitor):
 
     def visit_arg(self, node: ast.arg):
         if node.annotation:
-            association = self.visit(node.annotation)
-            updated_association = self._update_name(association)
-            splited_updated_association = updated_association.split(
+            association_string = self.visit(node.annotation)
+            updated_association_string = self._update_name(association_string)
+            splited_updated_association_string = updated_association_string.split(
                 ".")
-            if len(splited_updated_association) > 1:
-                self.relationships.append(RelationshipInformation(
-                    type="association", related=splited_updated_association[-1], related_module=splited_updated_association[:-1]
-                ))
+
+            association_name = splited_updated_association_string[-1]
+            association_modules = splited_updated_association_string[:-1]
+
+            if any(class_info.name == association_name for class_info in self.classes_info):
+                for class_info in self.classes_info:
+                    if class_info.name == association_name:
+                        self.relationships.append(RelationshipInformation(
+                            type="association", related=class_info.name, related_module=class_info.modules
+                        ))
+                        break
+
             else:
                 self.relationships.append(RelationshipInformation(
-                    type="association", related=updated_association, related_module=self.current_module
+                    type="association", related=association_name, related_module=association_modules
                 ))
+
         return node
 
     def _update_name(self, qualified_name):
