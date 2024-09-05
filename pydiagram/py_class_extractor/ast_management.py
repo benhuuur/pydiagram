@@ -24,8 +24,12 @@ def parse_ast_from_file(file_path: str) -> ast.AST:
     - OSError: If there is a general operating system error while accessing `file_path`.
     """
     try:
-        with open(file_path, "r", encoding=file_management.detect_file_encoding(file_path)) as file:
-            return ast.parse(file.read())
+        try:
+            with open(file_path, "r", encoding="utf-8") as file:
+                return ast.parse(file.read())
+        except UnicodeDecodeError:
+            with open(file_path, "r", encoding=file_management.detect_file_encoding(file_path)) as file:
+                return ast.parse(file.read())
     except FileNotFoundError:
         print(f"Error: File '{file_path}' not found.")
         raise

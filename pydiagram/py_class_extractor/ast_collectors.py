@@ -267,7 +267,11 @@ class RelationshipInspector(ast.NodeVisitor):
         for base in node.bases:
             self.current_inheritance = base
             inheritance_string = self.visit(base)
-            updated_inheritance_string = self._update_name(inheritance_string)
+
+            print("visit_ClassDef")
+
+            updated_inheritance_string = self._substitute_aliases(
+                inheritance_string)
             splited_updated_inheritance_string = updated_inheritance_string.split(
                 ".")
 
@@ -294,28 +298,16 @@ class RelationshipInspector(ast.NodeVisitor):
         return tuple(self.relationships)
 
     def visit_AnnAssign(self, node: ast.AnnAssign) -> ast.AnnAssign:
-        association_string = self.visit(node.annotation)
-        updated_association_string = self._update_name(association_string)
-        splited_updated_association_string = updated_association_string.split(
-            ".")
+        result = self.visit(node.annotation)
 
-        association_name = splited_updated_association_string[-1]
-        association_modules = splited_updated_association_string[:-1]
+        print("visit_AnnAssign")
 
-        if any(class_info.name == association_name for class_info in self.classes_info):
-            for class_info in self.classes_info:
-                if class_info.name == association_name:
-                    self.relationships.append(RelationshipInformation(
-                        type="association", related=class_info.name, related_module=class_info.modules
-                    ))
-                    break
+        updated_result = self._substitute_aliases(
+            result)
 
-        else:
-            self.relationships.append(RelationshipInformation(
-                type="association", related=association_name, related_module=association_modules
-            ))
-
-        return node
+        for class_info in self.classes_info:
+            if class_info.name in updated_result:
+                print("kk")
 
     def visit_Attribute(self, node: ast.Attribute) -> str:
         """
@@ -327,7 +319,7 @@ class RelationshipInspector(ast.NodeVisitor):
         Returns:
         - str: The full name of the visited attribute.
         """
-        return f"{self.visit(node.value)}.{node.attr}"
+        return ast.unparse(node)
 
     def visit_Subscript(self, node: ast.Subscript) -> str:
         """
@@ -339,7 +331,7 @@ class RelationshipInspector(ast.NodeVisitor):
         Returns:
         - str: String representation of the visited Subscript node.
         """
-        return f"{self.visit(node.value)}[{self.visit(node.slice)}]"
+        return ast.unparse(node)
 
     def visit_Name(self, node: ast.Name) -> str:
         """
@@ -351,7 +343,7 @@ class RelationshipInspector(ast.NodeVisitor):
         Returns:
         - str: The identifier of the visited name.
         """
-        return node.id
+        return ast.unparse(node)
 
     def visit_Call(self, node: ast.Call) -> str:
         """
@@ -363,33 +355,24 @@ class RelationshipInspector(ast.NodeVisitor):
         Returns:
         - str: String representation of the function call.
         """
-        function_name = self.visit(node.func)
-        args = ", ".join(str(self.visit(arg)) for arg in node.args)
-
         if self.current_inheritance:
-            return f"{function_name}({args})"
+            return ast.unparse(node)
 
-        association_string = function_name
-        updated_association_string = self._update_name(association_string)
-        splited_updated_association_string = updated_association_string.split(
-            ".")
+        for arg in node.args:
+            self.visit(arg)
 
-        association_name = splited_updated_association_string[-1]
-
-        if any(class_info.name == association_name for class_info in self.classes_info):
+        result = self.visit(node.func)
+        if isinstance(result, str):
+            print("visit_Call")
+            updated_result = self._substitute_aliases(result)
             for class_info in self.classes_info:
-                if class_info.name == association_name:
-                    self.relationships.append(RelationshipInformation(
-                        type="association", related=class_info.name, related_module=class_info.modules
-                    ))
-                    break
-
-        # else:
-        #     self.relationships.append(RelationshipInformation(
-        #         type="association", related=association_name, related_module=association_modules
-        #     ))
+                if class_info.name in updated_result:
+                    print("kk")
 
         return node
+
+    def visit_BinOp(self, node: ast.BinOp) -> str:
+        return ast.unparse(node)
 
     def visit_Constant(self, node: ast.Constant) -> str:
         """
@@ -401,7 +384,7 @@ class RelationshipInspector(ast.NodeVisitor):
         Returns:
         - str: The value of the constant.
         """
-        return str(node.value)
+        return ast.unparse(node)
 
     def visit_Tuple(self, node: ast.Tuple) -> str:
         """
@@ -413,45 +396,33 @@ class RelationshipInspector(ast.NodeVisitor):
         Returns:
         - str: String representation of the visited Tuple node.
         """
-        values = ", ".join(self.visit(elt) for elt in node.elts)
-        return f"({values})"
+        return ast.unparse(node)
 
     def visit_List(self, node: ast.List) -> str:
-        values = ", ".join(self.visit(elt) for elt in node.elts)
-        return f"({values})"
+        return ast.unparse(node)
 
     def visit_arg(self, node: ast.arg):
         if node.annotation:
-            association_string = self.visit(node.annotation)
-            updated_association_string = self._update_name(association_string)
-            splited_updated_association_string = updated_association_string.split(
-                ".")
+            result = self.visit(node.annotation)
 
-            association_name = splited_updated_association_string[-1]
-            association_modules = splited_updated_association_string[:-1]
+            print("visit_arg")
 
-            if any(class_info.name == association_name for class_info in self.classes_info):
-                for class_info in self.classes_info:
-                    if class_info.name == association_name:
-                        self.relationships.append(RelationshipInformation(
-                            type="association", related=class_info.name, related_module=class_info.modules
-                        ))
-                        break
+            if result is None:
+                print(ast.unparse(node))
 
-            else:
-                self.relationships.append(RelationshipInformation(
-                    type="association", related=association_name, related_module=association_modules
-                ))
+            updated_result = self._substitute_aliases(
+                result)
+            for class_info in self.classes_info:
+                if class_info.name in updated_result:
+                    print("kk")
 
         return node
 
-    def _update_name(self, qualified_name):
-        name_parts = qualified_name.split(".")
-        name_parts = [self.alias.get(
-            component, component) for component in name_parts]
-
-        updated_full_name = ".".join(name_parts)
-        return updated_full_name
+    def _substitute_aliases(self, qualified_name: str):
+        updated_name = qualified_name
+        for key, value in self.alias.items():
+            updated_name = updated_name.replace(key, value)
+        return updated_name
 
 
 class ImportCollector(ast.NodeVisitor):
@@ -502,8 +473,8 @@ class AliasInspector(ast.NodeVisitor):
         for name in node.names:
             alias_import = self.visit(name)
             for key in alias_import.keys():
-
-                alias_import[key] = node.module + "." + alias_import[key]
+                if node.module:
+                    alias_import[key] = node.module + "." + alias_import[key]
             self.alias_import.update(alias_import)
 
     def visit_alias(self, node: ast.alias) -> dict:
