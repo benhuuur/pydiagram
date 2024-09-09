@@ -129,7 +129,7 @@ class UMLClassDiagramElement(ET.Element):
 
         # Create and append header
         header_dimensions = utils.Dimensions(
-            self._dimensions.x, self._dimensions.y, self._dimensions.width, incremented_y_axios)
+            self._dimensions.x, self._dimensions.y, self._dimensions.width, incremented_y_axios-self._dimensions.y)
         header_element = ClassHeader(
             self._metadata["name"], header_dimensions, self._parent, self.id)
         self.insert(0, header_element)
@@ -160,6 +160,7 @@ class ClassHeader(XmlElementFromString):
 style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;"
 parent="{parent}" vertex="1">
     <mxGeometry x="{x}" y="{y}" width="{width}" height="{height}" as="geometry">
+    <mxRectangle x="{x}" y="{y}" width="{width-20}" height="30" as="alternateBounds" />
     </mxGeometry>
 </mxCell>
         """

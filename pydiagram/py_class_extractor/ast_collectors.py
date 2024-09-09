@@ -367,7 +367,8 @@ class RelationshipInspector(ast.NodeVisitor):
             updated_result = self._substitute_aliases(result)
             for class_info in self.classes_info:
                 if class_info.name in updated_result:
-                    print("kk")
+                    self.relationships.append(RelationshipInformation(
+                        "association", class_info.modules, class_info.name))
 
         return node
 
@@ -414,7 +415,8 @@ class RelationshipInspector(ast.NodeVisitor):
                 result)
             for class_info in self.classes_info:
                 if class_info.name in updated_result:
-                    print("kk")
+                    self.relationships.append(RelationshipInformation(
+                        "association", class_info.modules, class_info.name))
 
         return node
 

@@ -3,6 +3,7 @@ import json
 from typing import List, Optional
 import xml.etree.ElementTree as ET
 
+
 class Dimensions(namedtuple('Dimensions', ['x', 'y', 'width', 'height'])):
     # block dicts from this class
     __slots__ = ()
@@ -10,6 +11,7 @@ class Dimensions(namedtuple('Dimensions', ['x', 'y', 'width', 'height'])):
     # return tuple
     def __new__(cls, x, y, width, height):
         return super(Dimensions, cls).__new__(cls, x, y, width, height)
+
 
 def create_element(parent, tag, attrib=None, text=None):
     element = ET.SubElement(parent, tag, attrib or {})
