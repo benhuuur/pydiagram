@@ -307,7 +307,10 @@ class RelationshipInspector(ast.NodeVisitor):
 
         for class_info in self.classes_info:
             if class_info.name in updated_result:
-                print("kk")
+                self.relationships.append(RelationshipInformation(
+                    "association", class_info.modules, class_info.name))
+
+        return node
 
     def visit_Attribute(self, node: ast.Attribute) -> str:
         """

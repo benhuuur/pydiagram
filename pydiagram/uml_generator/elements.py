@@ -98,7 +98,8 @@ class UMLClassDiagramElement(ET.Element):
         """
         from .builders.elements import AttributeBuilder, MethodBuilder, StrokeBuilder
 
-        incremented_y_axios = self._dimensions.y + 26
+        incremented_y_axios = 26
+        # incremented_y_axios = self._dimensions.y + 26
 
         # Create and append attributes
         attribute_builder = AttributeBuilder(self.id)
@@ -129,7 +130,7 @@ class UMLClassDiagramElement(ET.Element):
 
         # Create and append header
         header_dimensions = utils.Dimensions(
-            self._dimensions.x, self._dimensions.y, self._dimensions.width, incremented_y_axios-self._dimensions.y)
+            self._dimensions.x, self._dimensions.y, self._dimensions.width, incremented_y_axios)
         header_element = ClassHeader(
             self._metadata["name"], header_dimensions, self._parent, self.id)
         self.insert(0, header_element)

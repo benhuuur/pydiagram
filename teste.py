@@ -1,5 +1,6 @@
 class A:
     def __init__(self):
+        self.attribute = 1
         print("A's __init__")
     
     def method(self):
