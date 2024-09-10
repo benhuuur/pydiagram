@@ -268,8 +268,6 @@ class RelationshipInspector(ast.NodeVisitor):
             self.current_inheritance = base
             inheritance_string = self.visit(base)
 
-            print("visit_ClassDef")
-
             updated_inheritance_string = self._substitute_aliases(
                 inheritance_string)
             splited_updated_inheritance_string = updated_inheritance_string.split(
@@ -299,9 +297,6 @@ class RelationshipInspector(ast.NodeVisitor):
 
     def visit_AnnAssign(self, node: ast.AnnAssign) -> ast.AnnAssign:
         result = self.visit(node.annotation)
-
-        print("visit_AnnAssign")
-
         updated_result = self._substitute_aliases(
             result)
 
@@ -366,7 +361,6 @@ class RelationshipInspector(ast.NodeVisitor):
 
         result = self.visit(node.func)
         if isinstance(result, str):
-            print("visit_Call")
             updated_result = self._substitute_aliases(result)
             for class_info in self.classes_info:
                 if class_info.name in updated_result:
@@ -408,8 +402,6 @@ class RelationshipInspector(ast.NodeVisitor):
     def visit_arg(self, node: ast.arg):
         if node.annotation:
             result = self.visit(node.annotation)
-
-            print("visit_arg")
 
             if result is None:
                 print(ast.unparse(node))

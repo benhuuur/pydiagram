@@ -44,14 +44,19 @@ if __name__ == "__main__":
                     G.add_edge(related_class,
                                cls["name"], relationship="association")
 
+    # print(G.nodes)
+    # print(G.edges)
     pos = pydot_layout(G, prog='dot')
     print(pos)
 
     classes = list()
     for class_metadata in metadata:
-
-        x = pos[class_metadata["name"]][0]*2
-        y = pos[class_metadata["name"]][1]*3
+        if class_metadata["name"] in pos:
+            x = pos[class_metadata["name"]][0] * 2
+            y = pos[class_metadata["name"]][1] * 3
+        else:
+            print(f"Node {class_metadata['name']} not found in positions.")
+            continue
 
         dimensions = Dimensions(x, y, 160, 26)
         UML_class = UMLClassDiagramElement(
@@ -70,27 +75,11 @@ if __name__ == "__main__":
                 flag = True
                 for target_index, target_class_metadata in enumerate(metadata):
                     if (relationship["related"] == target_class_metadata["name"]) and has_common_element(relationship["related_module"], target_class_metadata["modules"]):
-                        relationships.append(builder.build(
-                            InheritanceRelationship, classes[target_index].id))
-                        flag = False
-                        break
-                if flag:
-                    import_metadata = {
-                        "modules": relationship["related_module"],
-                        "name": relationship["related"],
-                        "relationships": [],
-                        "attributes": [],
-                        "methods": []
-                    }
-                    metadata.append(import_metadata)
-                    y = -100
-                    dimensions = Dimensions(x, y, 160, 26)
-                    import_class = UMLClassDiagramElement(
-                        import_metadata, dimensions, diagram.default_parent_id)
-                    classes.append(import_class)
-                    relationships.append(builder.build(
-                        InheritanceRelationship, import_class.id))
-                    x += 170
+                        try:
+                            relationships.append(builder.build(
+                                InheritanceRelationship, classes[target_index].id))
+                        except:
+                            pass
 
     diagram.extend(relationships)
     diagram.extend(classes)

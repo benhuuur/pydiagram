@@ -1264,5 +1264,43 @@
                 "encapsulation": "Public"
             }
         ]
+    },
+    {
+        "name": "NodeVisitor",
+        "modules": [
+            "ast"
+        ],
+        "relationships": [],
+        "attributes": [],
+        "methods": []
+    },
+    {
+        "name": "ABC",
+        "modules": [
+            "abc"
+        ],
+        "relationships": [],
+        "attributes": [],
+        "methods": []
+    },
+    {
+        "name": "Element",
+        "modules": [
+            "xml",
+            "etree",
+            "ElementTree"
+        ],
+        "relationships": [],
+        "attributes": [],
+        "methods": []
+    },
+    {
+        "name": "namedtuple('Dimensions', ['x', 'y', 'width', 'height'])",
+        "modules": [
+            "collections"
+        ],
+        "relationships": [],
+        "attributes": [],
+        "methods": []
     }
 ]
