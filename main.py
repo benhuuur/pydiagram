@@ -1,52 +1,98 @@
-from class_diagram_builder import class_structure_collector, file_management, ast_management
-from pydiagram import DrawioDiagramBuilder, ElementConfigManager
-import json
+import xml.etree.ElementTree as ET
+
+from pydiagram.py_class_extractor import generate_classes_dicts_from_directory
+from pydiagram.py_class_extractor.ast_management import parse_ast_from_file
+from pydiagram.py_class_extractor.file_management import save_data_to_json
+from pydiagram.uml_generator.builders.relationships import RelationshipBuilder
+from pydiagram.uml_generator.elements import DrawIODiagram, UMLClassDiagramElement
+from pydiagram.uml_generator.relationships import InheritanceRelationship
+from pydiagram.uml_generator.utils import Dimensions
+
+import networkx as nx
+from networkx.drawing.nx_pydot import pydot_layout
+
+
+def has_common_element(arr1, arr2):
+    return bool(set(arr1) & set(arr2))
 
 
 if __name__ == "__main__":
-    # Find all Python files in a specified directory and its subdirectories
-    target_directory = r"C:\Users\Aluno\AppData\Local\Programs\Python\Python312\Lib\json"
-    python_files = file_management.find_files_with_extension(
-        target_directory, ".py")
+    ast = parse_ast_from_file(
+        r"pydiagram\py_class_extractor\schemas.py")
 
-    print(python_files)
+    diagram = DrawIODiagram("pydiagram")
+    # metadata = generate_classes_dicts_from_file(
+    #     r"C:\Users\Aluno\Desktop\pydiagram\teste.py")
+    # metadata = generate_classes_dicts_from_file(
+    #     r"C:\Users\Aluno\Desktop\pydiagram\pydiagram")
+    metadata = generate_classes_dicts_from_directory(
+        r"C:\Users\Aluno\Desktop\pydiagram\pydiagram")
+    save_data_to_json("class.json", metadata)
 
-    class_data_list = []
-    for file_path in python_files:
-        ast_tree = ast_management.parse_ast_from_file(file_path)
-        class_nodes = ast_management.extract_class_nodes(ast_tree)
-        print(file_path)
-        for class_node in class_nodes:
-            visitor = class_structure_collector.ClassNodeVisitor()
-            class_data_list.append(visitor.visit(class_node))
+    G = nx.DiGraph()
+    for cls in metadata:
+        G.add_node(cls["name"], label=cls["name"])
 
-    classes_metadata = [current_class.to_dictionary()
-                   for current_class in class_data_list]
+    for cls in metadata:
+        for rel in cls["relationships"]:
+            related_class = rel.get("related")
+            if related_class and related_class in G.nodes:
+                if rel["type"] == "inheritance":
+                    G.add_edge(related_class,
+                               cls["name"], relationship="inheritance")
+                elif rel["type"] == "association":
+                    G.add_edge(related_class,
+                               cls["name"], relationship="association")
 
-    # file_management.save_data_to_json(
-    #     data=classes_metadata, filename=r"class.json"
-    # )
+    pos = pydot_layout(G, prog='dot')
+    print(pos)
 
-    ElementConfigManager(r'pydiagram\configs\elements.json')
-    manager = ElementConfigManager.get_manager()
+    classes = list()
+    for class_metadata in metadata:
 
-    # json_file = r'resources\json\class.json'
+        x = pos[class_metadata["name"]][0]*2
+        y = pos[class_metadata["name"]][1]*3
 
-    # with open(json_file, 'r', encoding='utf-8') as file:
-    #     classes_metadata = json.load(file)
+        dimensions = Dimensions(x, y, 160, 26)
+        UML_class = UMLClassDiagramElement(
+            class_metadata, dimensions, diagram.default_parent_id)
+        classes.append(UML_class)
+        # x += 170
 
-    builder = DrawioDiagramBuilder()
-    for index, metadata in enumerate(classes_metadata):
-        position = (0 + (index * 170), 0)
+    relationships = list()
+    for source_index, source_class_metadata in enumerate(metadata):
+        for relationship in source_class_metadata["relationships"]:
+            source_id = classes[source_index].id
+            parent_id = diagram.default_parent_id
+            builder = RelationshipBuilder(parent_id, source_id)
+            # continue
+            if relationship["type"] == "inheritance":
+                flag = True
+                for target_index, target_class_metadata in enumerate(metadata):
+                    if (relationship["related"] == target_class_metadata["name"]) and has_common_element(relationship["related_module"], target_class_metadata["modules"]):
+                        relationships.append(builder.build(
+                            InheritanceRelationship, classes[target_index].id))
+                        flag = False
+                        break
+                if flag:
+                    import_metadata = {
+                        "modules": relationship["related_module"],
+                        "name": relationship["related"],
+                        "relationships": [],
+                        "attributes": [],
+                        "methods": []
+                    }
+                    metadata.append(import_metadata)
+                    y = -100
+                    dimensions = Dimensions(x, y, 160, 26)
+                    import_class = UMLClassDiagramElement(
+                        import_metadata, dimensions, diagram.default_parent_id)
+                    classes.append(import_class)
+                    relationships.append(builder.build(
+                        InheritanceRelationship, import_class.id))
+                    x += 170
 
-        details = {
-            "position": position,
-            "class": metadata,
-            "width": 160,
-            "height": None
-        }
-
-        builder.append_class(details)
-
-    xml_diagram = builder.build()
-    xml_diagram.write(r"output.xml", encoding="utf-8")
+    diagram.extend(relationships)
+    diagram.extend(classes)
+    with open('output.xml', 'w', encoding='utf-8') as file:
+        file.write(ET.tostring(diagram, encoding='unicode'))

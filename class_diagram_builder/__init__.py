@@ -1,4 +1,0 @@
-import class_diagram_builder.ast_management
-import class_diagram_builder.class_structure_collector
-import class_diagram_builder.file_management
-import class_diagram_builder.schemas
