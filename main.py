@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 
-from pydiagram.py_class_extractor import generate_classes_dicts_from_directory
+from pydiagram.py_class_extractor import generate_classes_dicts_from_directory, generate_classes_dicts_from_file
 from pydiagram.py_class_extractor.ast_management import parse_ast_from_file
 from pydiagram.py_class_extractor.file_management import save_data_to_json
 from pydiagram.uml_generator.builders.relationships import RelationshipBuilder
@@ -21,28 +21,33 @@ if __name__ == "__main__":
         r"pydiagram\py_class_extractor\schemas.py")
 
     diagram = DrawIODiagram("pydiagram")
-    # metadata = generate_classes_dicts_from_file(
-    #     r"C:\Users\Aluno\Desktop\pydiagram\teste.py")
+    metadata = generate_classes_dicts_from_file(
+        r"C:\Users\Aluno\Desktop\pydiagram\teste.py")
     # metadata = generate_classes_dicts_from_file(
     #     r"C:\Users\Aluno\Desktop\pydiagram\pydiagram")
-    metadata = generate_classes_dicts_from_directory(
-        r"C:\Users\Aluno\Desktop\pydiagram\pydiagram")
+    # metadata = generate_classes_dicts_from_directory(
+    #     r"C:\Users\Aluno\Desktop\pydiagram\pydiagram")
     save_data_to_json("class.json", metadata)
+
+    
 
     G = nx.DiGraph()
     for cls in metadata:
-        G.add_node(cls["name"], label=cls["name"])
+        if "[" in cls["name"]:
+            print("")
+        correct = cls["name"].replace("'","").replace("[","").replace("]","").replace(" ","").replace("(", "").replace(")", "").replace(",", "")
+        G.add_node(correct, label=correct)
 
     for cls in metadata:
         for rel in cls["relationships"]:
-            related_class = rel.get("related")
+            related_class = rel.get("related").replace("'","").replace("[","").replace("]","").replace(" ","").replace("(", "").replace(")", "").replace(",", "")
             if related_class and related_class in G.nodes:
                 if rel["type"] == "inheritance":
                     G.add_edge(related_class,
-                               cls["name"], relationship="inheritance")
+                               cls["name"].replace("'","").replace("[","").replace("]","").replace(" ","").replace("(", "").replace(")", "").replace(",", ""), relationship="inheritance")
                 elif rel["type"] == "association":
                     G.add_edge(related_class,
-                               cls["name"], relationship="association")
+                               cls["name"].replace("'","").replace("[","").replace("]","").replace(" ","").replace("(", "").replace(")", "").replace(",", ""), relationship="association")
 
     # print(G.nodes)
     # print(G.edges)
@@ -51,9 +56,9 @@ if __name__ == "__main__":
 
     classes = list()
     for class_metadata in metadata:
-        if class_metadata["name"] in pos:
-            x = pos[class_metadata["name"]][0] * 2
-            y = pos[class_metadata["name"]][1] * 3
+        if class_metadata["name"].replace("'","").replace("[","").replace("]","").replace(" ","").replace("(", "").replace(")", "").replace(",", "") in pos:
+            x = pos[class_metadata["name"].replace("'","").replace("[","").replace("]","").replace(" ","").replace("(", "").replace(")", "").replace(",", "")][0] * 2
+            y = pos[class_metadata["name"].replace("'","").replace("[","").replace("]","").replace(" ","").replace("(", "").replace(")", "").replace(",", "")][1] * 3
         else:
             print(f"Node {class_metadata['name']} not found in positions.")
             continue
