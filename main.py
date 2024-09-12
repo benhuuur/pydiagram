@@ -18,7 +18,21 @@ from networkx.drawing.nx_pydot import pydot_layout
 def has_common_element(arr1, arr2):
     return bool(set(arr1) & set(arr2))
 
+def is_graphviz_installed():
+    try:
+        # Verifica se o comando dot está disponível (um dos comandos do Graphviz)
+        subprocess.run(['dot', '-V'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        return True
+    except FileNotFoundError:
+        return False
+    except subprocess.CalledProcessError:
+        return False
+
 def install_graphviz():
+    if is_graphviz_installed():
+        print("Graphviz já está instalado.")
+        return
+    
     # Verifica se o winget está disponível
     try:
         subprocess.run(['winget', '--version'], check=True)
