@@ -1,89 +1,94 @@
 import ast
-
+from typing import List, Dict, Union, Tuple
 from pydiagram.py_class_extractor.schemas import ClassInformation, FunctionInformation, AttributeInformation, RelationshipInformation
-
 
 class ClassDefCollector(ast.NodeVisitor):
     """
-    A NodeVisitor implementation to collect ClassDef nodes from AST.
+    Collects ClassDef nodes from the AST.
 
     Attributes:
-    - class_defs (list): List to store ClassDef nodes found during traversal.
+    - collected_classes (List[ast.ClassDef]): List of ClassDef nodes found during traversal.
     """
 
     def __init__(self) -> None:
         """
-        Initializes an instance of ClassDefCollector.
+        Initializes the ClassDefCollector.
         """
-        self.class_defs = []
+        self.collected_classes: List[ast.ClassDef] = []
 
-    def visit_ClassDef(self, node):
+    def visit_ClassDef(self, node: ast.ClassDef) -> None:
         """
-        Visits a ClassDef node and appends it to the class_defs list.
+        Visits a ClassDef node and adds it to the collected_classes list.
 
         Args:
-        - node (ast.ClassDef): ClassDef node to visit.
+        - node (ast.ClassDef): The ClassDef node to visit.
         """
-        self.class_defs.append(node)
+        self.collected_classes.append(node)
         self.generic_visit(node)
 
 
-class ClassDefInspector(ast.NodeVisitor):
+class ClassMetadataInspector(ast.NodeVisitor):
     """
-    A NodeVisitor implementation to visit and analyze various nodes in AST and get metadata from the classes.
+    Analyzes nodes in the AST to extract metadata from classes.
 
     Attributes:
-    - current_class (ast.ClassDef or None): Current ClassDef node being visited.
-    - current_function (ast.FunctionDef or None): Current function node being visited.
-    - methods (list): List to store FunctionInfo objects representing methods.
-    - attributes (list): List to store AttributeInfo objects representing attributes.
+    - current_class (Union[ast.ClassDef, None]): The current ClassDef node being analyzed.
+    - current_function (Union[ast.FunctionDef, None]): The current function node being analyzed.
+    - current_assignment (Union[ast.AST, None]): The current assignment node being analyzed.
+    - methods (List[FunctionInformation]): List of method information collected.
+    - attributes (List[AttributeInformation]): List of attribute information collected.
     """
 
     def __init__(self) -> None:
         """
-        Initializes an instance of ClassInspector.
+        Initializes the ClassMetadataInspector.
         """
-        self.current_class: ast.ClassDef = None
-        self.current_function: ast.FunctionDef = None
-        self.current_assign: ast.AST = None
-        self.methods = []
-        self.attributes = []
+        self.current_class: Union[ast.ClassDef, None] = None
+        self.current_function: Union[ast.FunctionDef, None] = None
+        self.current_assignment: Union[ast.AST, None] = None
+        self.methods: List[FunctionInformation] = []
+        self.attributes: List[AttributeInformation] = []
 
     def visit_ClassDef(self, node: ast.ClassDef) -> ClassInformation:
         """
-        Visits a ClassDef node and collects information about it.
+        Visits a ClassDef node to extract class metadata.
 
         Args:
-        - node (ast.ClassDef): ClassDef node to visit.
+        - node (ast.ClassDef): The ClassDef node to visit.
 
         Returns:
-        - ClassInformation: Information about the visited class.
+        - ClassInformation: Metadata about the visited class, including methods and attributes.
         """
         self.current_class = node
         self.generic_visit(node)
 
-        class_info = ClassInformation(
-            modules=None, name=node.name, relationships=None, methods=tuple(self.methods), attributes=tuple(self.attributes)
+        return ClassInformation(
+            modules=None,
+            name=node.name,
+            relationships=None,
+            methods=tuple(self.methods),
+            attributes=tuple(self.attributes)
         )
-
-        return class_info
 
     def visit_FunctionDef(self, node: ast.FunctionDef) -> ast.FunctionDef:
         """
-        Visits a FunctionDef node and collects information about it.
+        Visits a FunctionDef node to collect method information.
 
         Args:
-        - node (ast.FunctionDef): FunctionDef node to visit.
+        - node (ast.FunctionDef): The FunctionDef node to visit.
 
         Returns:
-        - ast.FunctionDef: The visited function node.
+        - ast.FunctionDef: The visited FunctionDef node.
         """
         args = [arg.arg for arg in node.args.args]
         function_name = node.name
-        function_encapsulation = self._determine_encapsulation(function_name)
+        encapsulation = self._get_encapsulation_level(function_name)
 
         self.methods.append(FunctionInformation(
-            name=function_name, args=args, return_value=None, encapsulation=function_encapsulation
+            name=function_name,
+            args=args,
+            return_value=None,
+            encapsulation=encapsulation
         ))
 
         self.current_function = node
@@ -94,18 +99,20 @@ class ClassDefInspector(ast.NodeVisitor):
 
     def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> ast.AsyncFunctionDef:
         """
-        Visits an AsyncFunctionDef node and collects information about it.
+        Visits an AsyncFunctionDef node to collect async method information.
 
         Args:
-        - node (ast.AsyncFunctionDef): AsyncFunctionDef node to visit.
+        - node (ast.AsyncFunctionDef): The AsyncFunctionDef node to visit.
 
         Returns:
-        - ast.AsyncFunctionDef: The visited async function node.
+        - ast.AsyncFunctionDef: The visited AsyncFunctionDef node.
         """
         args = [arg.arg for arg in node.args.args]
-
         self.methods.append(FunctionInformation(
-            name=node.name, args=args, return_value=None, encapsulation="Public"
+            name=node.name,
+            args=args,
+            return_value=None,
+            encapsulation="Public"
         ))
 
         self.current_function = node
@@ -116,55 +123,53 @@ class ClassDefInspector(ast.NodeVisitor):
 
     def visit_AnnAssign(self, node: ast.AnnAssign) -> ast.AnnAssign:
         """
-        Visits an AnnAssign node (annotation assignment) and collects attribute information.
+        Visits an AnnAssign node (annotation assignment) to collect attribute information.
 
         Args:
-        - node (ast.AnnAssign): AnnAssign node to visit.
+        - node (ast.AnnAssign): The AnnAssign node to visit.
 
         Returns:
         - ast.AnnAssign: The visited AnnAssign node.
         """
-        self.current_assign = node
+        self.current_assignment = node
         self.visit(node.target)
-        self.current_assign = None
+        self.current_assignment = None
 
         return node
 
     def visit_Assign(self, node: ast.Assign) -> ast.Assign:
         """
-        Visits an Assign node and collects attribute information.
+        Visits an Assign node to collect attribute information.
 
         Args:
-        - node (ast.Assign): Assign node to visit.
+        - node (ast.Assign): The Assign node to visit.
 
         Returns:
         - ast.Assign: The visited Assign node.
         """
-        self.current_assign = node
+        self.current_assignment = node
         for target in node.targets:
             self.visit(target)
-        self.current_assign = None
+        self.current_assignment = None
 
         return node
 
     def visit_Attribute(self, node: ast.Attribute) -> str:
         """
-        Visits an Attribute node and retrieves the attribute name.
+        Visits an Attribute node to retrieve and process attribute names.
 
         Args:
-        - node (ast.Attribute): Attribute node to visit.
+        - node (ast.Attribute): The Attribute node to visit.
 
         Returns:
-        - str: The name of the visited attribute.
+        - str: The name of the attribute.
         """
         if isinstance(node.value, ast.Name):
-            if self.current_assign and (self.current_function is None or
-                                        (self.current_function.name == "__init__" and isinstance(self.current_assign, (ast.Assign, ast.AnnAssign)))):
+            if self._is_valid_attribute_assignment():
                 attribute_name = node.attr
                 self.attributes.append(AttributeInformation(
                     name=attribute_name,
-                    encapsulation=self._determine_encapsulation(
-                        attribute_name),
+                    encapsulation=self._get_encapsulation_level(attribute_name),
                     data_type=None
                 ))
             return node.attr
@@ -173,20 +178,19 @@ class ClassDefInspector(ast.NodeVisitor):
 
     def visit_Name(self, node: ast.Name) -> str:
         """
-        Visits a Name node and retrieves the identifier.
+        Visits a Name node to retrieve identifiers and process attributes.
 
         Args:
-        - node (ast.Name): Name node to visit.
+        - node (ast.Name): The Name node to visit.
 
         Returns:
-        - str: The identifier of the visited name.
+        - str: The identifier of the name.
         """
-        if self.current_assign and (self.current_function is None or
-                                    (self.current_function.name == "__init__" and isinstance(self.current_assign, ast.Attribute))):
+        if self._is_valid_attribute_assignment():
             attribute_name = node.id
             self.attributes.append(AttributeInformation(
                 name=attribute_name,
-                encapsulation=self._determine_encapsulation(attribute_name),
+                encapsulation=self._get_encapsulation_level(attribute_name),
                 data_type=None
             ))
 
@@ -194,43 +198,41 @@ class ClassDefInspector(ast.NodeVisitor):
 
     def visit_Constant(self, node: ast.Constant) -> str:
         """
-        Visits a Constant node and retrieves its value type.
+        Visits a Constant node to determine its type.
 
         Args:
-        - node (ast.Constant): Constant node to visit.
+        - node (ast.Constant): The Constant node to visit.
 
         Returns:
         - str: The type of the constant value.
         """
         return type(node.value).__name__
 
-    def visit_Tuple(self, node: ast.Tuple) -> list:
+    def visit_Tuple(self, node: ast.Tuple) -> List[Union[str, int, float, bool, None]]:
         """
-        Visits a Tuple node and retrieves its values.
+        Visits a Tuple node to retrieve its values.
 
         Args:
-        - node (ast.Tuple): Tuple node to visit.
+        - node (ast.Tuple): The Tuple node to visit.
 
         Returns:
-        - list: List of values in the tuple.
+        - list: A list of values within the tuple.
         """
-        values = [self.visit(elt)
-                  for elt in node.elts if self.visit(elt) is not None]
-        return values
+        return [self.visit(element) for element in node.elts if self.visit(element) is not None]
 
     def visit_arg(self, node: ast.arg) -> ast.arg:
         """
-        Visits an arg node and returns it.
+        Visits an arg node and returns it (currently does nothing).
 
         Args:
-        - node (ast.arg): arg node to visit.
+        - node (ast.arg): The arg node to visit.
 
         Returns:
-        - ast.arg: The visited arg node.
+        - ast.arg: The arg node.
         """
-        return node  # Skip this node
+        return node  # No processing needed for args
 
-    def _determine_encapsulation(self, name: str) -> str:
+    def _get_encapsulation_level(self, name: str) -> str:
         """
         Determines the encapsulation level of a given name.
 
@@ -238,7 +240,7 @@ class ClassDefInspector(ast.NodeVisitor):
         - name (str): The name to analyze.
 
         Returns:
-        - str: The encapsulation level ("Public", "Private").
+        - str: The encapsulation level ("Public" or "Private").
         """
         if name.startswith('__') and name.endswith('__'):
             return "Public"
@@ -246,16 +248,47 @@ class ClassDefInspector(ast.NodeVisitor):
             return "Private"
         return "Public"
 
+    def _is_valid_attribute_assignment(self) -> bool:
+        """
+        Checks if the current context is a valid attribute assignment.
 
-class RelationshipInspector(ast.NodeVisitor):
-    def __init__(self, alias: dict, classes_info: list) -> None:
-        self.current_class = None
-        self.alias = alias if alias else dict()
-        self.relationships = list()
-        self.current_inheritance: ast.AST = None
-        self.classes_info = classes_info
+        Returns:
+        - bool: True if the current context is valid for attribute assignment.
+        """
+        return self.current_assignment and (
+            self.current_function is None or
+            (self.current_function.name == "__init__" and isinstance(
+                self.current_assignment, (ast.Assign, ast.AnnAssign)))
+        )
 
-    def visit_ClassDef(self, node: ast.ClassDef):
+
+class ClassRelationshipInspector(ast.NodeVisitor):
+    """
+    Analyzes class relationships and associations in the AST.
+
+    Attributes:
+    - current_class_node (Union[ast.ClassDef, None]): The current ClassDef node being analyzed.
+    - alias_map (Dict[str, str]): Map of alias names to original names.
+    - relationships (List[RelationshipInformation]): List of relationships found during traversal.
+    - current_base_node (Union[ast.AST, None]): The current base node being analyzed.
+    - class_info_list (List[RelationshipInformation]): List of class information for resolving relationships.
+    """
+
+    def __init__(self, alias_map: Dict[str, str], class_info_list: List[RelationshipInformation]) -> None:
+        """
+        Initializes the ClassRelationshipInspector.
+
+        Args:
+        - alias_map (Dict[str, str]): Map of alias names to original names.
+        - class_info_list (List[RelationshipInformation]): List of class information for resolving relationships.
+        """
+        self.current_class_node = None
+        self.alias_map = alias_map or {}
+        self.relationships: List[RelationshipInformation] = []
+        self.current_base_node: Union[ast.AST, None] = None
+        self.class_info_list = class_info_list
+
+    def visit_ClassDef(self, node: ast.ClassDef) -> Tuple[RelationshipInformation, ...]:
         """
         Visits a ClassDef node and analyzes its inheritance relationships.
 
@@ -265,228 +298,292 @@ class RelationshipInspector(ast.NodeVisitor):
         Returns:
         - tuple: A tuple of RelationshipInformation objects representing inheritance relationships.
         """
-        self.current_class = node
-        
+        self.current_class_node = node
+
         for base in node.bases:
-            self.current_inheritance = base
-            inheritance_string = self.visit(base)
+            self.current_base_node = base
+            base_name = self.visit(base)
+            resolved_base_name = self._resolve_aliases(base_name)
+            base_parts = resolved_base_name.split(".")
+            base_class_name = base_parts[-1]
+            base_modules = base_parts[:-1]
 
-            updated_inheritance_string = self._substitute_aliases(
-                inheritance_string)
-            splited_updated_inheritance_string = updated_inheritance_string.split(
-                ".")
-
-            inheritance_name = splited_updated_inheritance_string[-1]
-            inheritance_modules = splited_updated_inheritance_string[:-1]
-
-            if any(class_info.name == inheritance_name for class_info in self.classes_info):
-                for class_info in self.classes_info:
-                    if class_info.name == inheritance_name:
+            if any(info.name == base_class_name for info in self.class_info_list):
+                for info in self.class_info_list:
+                    if info.name == base_class_name:
                         self.relationships.append(RelationshipInformation(
-                            type="inheritance", related=class_info.name, related_module=class_info.modules
+                            relation_type="inheritance",
+                            name=info.name,
+                            modules=info.modules
                         ))
                         break
-
             else:
                 self.relationships.append(RelationshipInformation(
-                    type="inheritance", related=inheritance_name, related_module=inheritance_modules
+                    relation_type="inheritance",
+                    name=base_class_name,
+                    modules=base_modules
                 ))
 
-            self.current_inheritance = None
+            self.current_base_node = None
 
         self.generic_visit(node)
-
         return tuple(self.relationships)
 
     def visit_AnnAssign(self, node: ast.AnnAssign) -> ast.AnnAssign:
-        result = self.visit(node.annotation)
-        updated_result = self._substitute_aliases(
-            result)
+        """
+        Visits an AnnAssign node to check for associations.
 
-        for class_info in self.classes_info:
-            if class_info.name in updated_result and self.current_class.name != class_info.name:
+        Args:
+        - node (ast.AnnAssign): The AnnAssign node to visit.
+
+        Returns:
+        - ast.AnnAssign: The visited AnnAssign node.
+        """
+        annotation = self.visit(node.annotation)
+        resolved_annotation = self._resolve_aliases(annotation)
+
+        for info in self.class_info_list:
+            if info.name in resolved_annotation and self.current_class_node.name != info.name:
                 self.relationships.append(RelationshipInformation(
-                    "association", class_info.modules, class_info.name))
+                    relation_type="association",
+                    name=info.name,
+                    modules=info.modules
+                ))
 
         return node
 
     def visit_Attribute(self, node: ast.Attribute) -> str:
         """
-        Visits an Attribute node and retrieves its full name.
+        Visits an Attribute node and returns its string representation.
 
         Args:
-        - node (ast.Attribute): The attribute node to visit.
+        - node (ast.Attribute): The Attribute node to visit.
 
         Returns:
-        - str: The full name of the visited attribute.
+        - str: The string representation of the attribute.
         """
         return ast.unparse(node)
 
     def visit_Subscript(self, node: ast.Subscript) -> str:
         """
-        Visits a Subscript node and retrieves its string representation.
+        Visits a Subscript node and returns its string representation.
 
         Args:
-        - node (ast.Subscript): The subscript node to visit.
+        - node (ast.Subscript): The Subscript node to visit.
 
         Returns:
-        - str: String representation of the visited Subscript node.
+        - str: The string representation of the subscript.
         """
         return ast.unparse(node)
 
     def visit_Name(self, node: ast.Name) -> str:
         """
-        Visits a Name node and retrieves its identifier.
+        Visits a Name node and returns its string representation.
 
         Args:
-        - node (ast.Name): The name node to visit.
+        - node (ast.Name): The Name node to visit.
 
         Returns:
-        - str: The identifier of the visited name.
+        - str: The string representation of the name.
         """
         return ast.unparse(node)
 
     def visit_Call(self, node: ast.Call) -> str:
         """
-        Visits a Call node and retrieves its function call representation.
+        Visits a Call node to check for associations.
 
         Args:
-        - node (ast.Call): The call node to visit.
+        - node (ast.Call): The Call node to visit.
 
         Returns:
-        - str: String representation of the function call.
+        - str: The string representation of the call.
         """
-        if self.current_inheritance:
+        if self.current_base_node:
             return ast.unparse(node)
 
         for arg in node.args:
             self.visit(arg)
 
-        result = self.visit(node.func)
-        if isinstance(result, str):
-            updated_result = self._substitute_aliases(result)
-            for class_info in self.classes_info:
-                if class_info.name in updated_result and self.current_class.name != class_info.name:
+        function_name = self.visit(node.func)
+        if isinstance(function_name, str):
+            resolved_function_name = self._resolve_aliases(function_name)
+            for info in self.class_info_list:
+                if info.name in resolved_function_name and self.current_class_node.name != info.name:
                     self.relationships.append(RelationshipInformation(
-                        "association", class_info.modules, class_info.name))
+                        relation_type="association",
+                        name=info.name,
+                        modules=info.modules
+                    ))
 
         return node
 
     def visit_BinOp(self, node: ast.BinOp) -> str:
+        """
+        Visits a BinOp node and returns its string representation.
+
+        Args:
+        - node (ast.BinOp): The BinOp node to visit.
+
+        Returns:
+        - str: The string representation of the binary operation.
+        """
         return ast.unparse(node)
 
     def visit_Constant(self, node: ast.Constant) -> str:
         """
-        Visits a Constant node and retrieves its value.
+        Visits a Constant node and returns its string representation.
 
         Args:
-        - node (ast.Constant): The constant node to visit.
+        - node (ast.Constant): The Constant node to visit.
 
         Returns:
-        - str: The value of the constant.
+        - str: The string representation of the constant.
         """
         return ast.unparse(node)
 
     def visit_Tuple(self, node: ast.Tuple) -> str:
         """
-        Visits a Tuple node and retrieves its string representation.
+        Visits a Tuple node and returns its string representation.
 
         Args:
-        - node (ast.Tuple): The tuple node to visit.
+        - node (ast.Tuple): The Tuple node to visit.
 
         Returns:
-        - str: String representation of the visited Tuple node.
+        - str: The string representation of the tuple.
         """
         return ast.unparse(node)
 
     def visit_List(self, node: ast.List) -> str:
+        """
+        Visits a List node and returns its string representation.
+
+        Args:
+        - node (ast.List): The List node to visit.
+
+        Returns:
+        - str: The string representation of the list.
+        """
         return ast.unparse(node)
 
-    def visit_arg(self, node: ast.arg):
+    def visit_arg(self, node: ast.arg) -> ast.arg:
+        """
+        Visits an arg node and checks for associations.
+
+        Args:
+        - node (ast.arg): The arg node to visit.
+
+        Returns:
+        - ast.arg: The arg node.
+        """
         if node.annotation:
-            result = self.visit(node.annotation)
-
-            if result is None:
-                print(ast.unparse(node))
-
-            updated_result = self._substitute_aliases(
-                result)
-            for class_info in self.classes_info:
-                if class_info.name in updated_result and self.current_class.name != class_info.name:
+            annotation_str = self.visit(node.annotation)
+            resolved_annotation = self._resolve_aliases(annotation_str)
+            for info in self.class_info_list:
+                if info.name in resolved_annotation and self.current_class_node.name != info.name:
                     self.relationships.append(RelationshipInformation(
-                        "association", class_info.modules, class_info.name))
+                        relation_type="association",
+                        name=info.name,
+                        modules=info.modules
+                    ))
 
         return node
 
-    def _substitute_aliases(self, qualified_name: str):
-        updated_name = qualified_name
-        for key, value in self.alias.items():
-            updated_name = updated_name.replace(key, value)
-        return updated_name
+    def _resolve_aliases(self, qualified_name: str) -> str:
+        """
+        Resolves aliases in a qualified name using the alias map.
+
+        Args:
+        - qualified_name (str): The qualified name to resolve.
+
+        Returns:
+        - str: The resolved name with aliases replaced.
+        """
+        for alias, original in self.alias_map.items():
+            qualified_name = qualified_name.replace(alias, original)
+        return qualified_name
 
 
 class ImportCollector(ast.NodeVisitor):
+    """
+    Collects import statements from the AST.
+
+    Attributes:
+    - import_nodes (List[ast.AST]): List of import nodes found during traversal.
+    """
+
     def __init__(self) -> None:
-        self.imports = list()
+        """
+        Initializes the ImportCollector.
+        """
+        self.import_nodes: List[ast.AST] = []
 
     def visit_Import(self, node: ast.Import) -> None:
         """
-        Visits an Import node and adds it to the imports list.
+        Visits an Import node and adds it to the import_nodes list.
 
         Args:
         - node (ast.Import): The Import node to visit.
         """
-        self.imports.append(node)
+        self.import_nodes.append(node)
 
     def visit_ImportFrom(self, node: ast.ImportFrom) -> None:
         """
-        Visits an ImportFrom node and adds it to the imports list.
+        Visits an ImportFrom node and adds it to the import_nodes list.
 
         Args:
         - node (ast.ImportFrom): The ImportFrom node to visit.
         """
-        self.imports.append(node)
+        self.import_nodes.append(node)
 
 
 class AliasInspector(ast.NodeVisitor):
+    """
+    Inspects import statements to create a map of aliases to original names.
+
+    Attributes:
+    - alias_map (Dict[str, str]): Map of alias names to original names.
+    """
+
     def __init__(self) -> None:
-        self.alias_import = dict()
+        """
+        Initializes the AliasInspector.
+        """
+        self.alias_map: Dict[str, str] = {}
 
     def visit_Import(self, node: ast.Import) -> None:
         """
-        Visits an Import node and extracts aliases from it.
+        Visits an Import node to extract aliases and updates the alias_map.
 
         Args:
         - node (ast.Import): The Import node to visit.
         """
-        for name in node.names:
-            alias_import = self.visit(name)
-            self.alias_import.update(alias_import)
+        for alias_node in node.names:
+            alias_mapping = self._extract_aliases(alias_node)
+            self.alias_map.update(alias_mapping)
 
     def visit_ImportFrom(self, node: ast.ImportFrom) -> None:
         """
-        Visits an ImportFrom node and extracts aliases from it.
+        Visits an ImportFrom node to extract aliases and updates the alias_map.
 
         Args:
         - node (ast.ImportFrom): The ImportFrom node to visit.
         """
-        for name in node.names:
-            alias_import = self.visit(name)
-            for key in alias_import.keys():
-                if node.module:
-                    alias_import[key] = node.module + "." + alias_import[key]
-            self.alias_import.update(alias_import)
+        for alias_node in node.names:
+            alias_mapping = self._extract_aliases(alias_node)
+            if node.module:
+                alias_mapping = {key: f"{node.module}.{value}" for key, value in alias_mapping.items()}
+            self.alias_map.update(alias_mapping)
 
-    def visit_alias(self, node: ast.alias) -> dict:
+    def _extract_aliases(self, alias_node: ast.alias) -> Dict[str, str]:
         """
-        Visits an alias node and retrieves its alias name and original name.
+        Extracts alias mappings from an alias node.
 
         Args:
-        - node (ast.alias): The alias node to visit.
+        - alias_node (ast.alias): The alias node to extract from.
 
         Returns:
-        - dict: A dictionary with the alias as the key and the original name as the value.
+        - Dict[str, str]: A dictionary mapping alias names to original names.
         """
-        if node.asname:
-            return {node.asname: node.name}
-        return {node.name: node.name}
+        if alias_node.asname:
+            return {alias_node.asname: alias_node.name}
+        return {alias_node.name: alias_node.name}

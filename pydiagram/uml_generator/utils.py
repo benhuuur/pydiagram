@@ -1,55 +1,127 @@
-from collections import namedtuple
 import json
-from typing import List, Optional
 import xml.etree.ElementTree as ET
+from collections import namedtuple
+from typing import Any, List, Optional, Dict
 
 
 class Dimensions(namedtuple('Dimensions', ['x', 'y', 'width', 'height'])):
-    # block dicts from this class
+    """
+    A class representing the dimensions of a rectangular area.
+
+    Attributes:
+    - x (int): The x-coordinate of the top-left corner.
+    - y (int): The y-coordinate of the top-left corner.
+    - width (int): The width of the rectangle.
+    - height (int): The height of the rectangle.
+    """
     __slots__ = ()
 
-    # return tuple
-    def __new__(cls, x, y, width, height):
-        return super(Dimensions, cls).__new__(cls, x, y, width, height)
 
+def create_element(parent: ET.Element, tag: str, attrib: Optional[Dict[str, str]] = None, text: Optional[str] = None) -> ET.Element:
+    """
+    Creates a new XML element as a child of the given parent element.
 
-def create_element(parent, tag, attrib=None, text=None):
+    Args:
+    - parent (ET.Element): The parent element to which the new element will be added.
+    - tag (str): The tag name of the new element.
+    - attrib (Optional[Dict[str, str]]): A dictionary of attributes to set on the new element.
+    - text (Optional[str]): Text content to set for the new element.
+
+    Returns:
+    - ET.Element: The newly created XML element.
+    """
     element = ET.SubElement(parent, tag, attrib or {})
     if text:
         element.text = text
     return element
 
 
-def validate_dict(dict, keys):
-    return all(key in dict for key in keys)
+def contains_keys(d: Dict[str, Any], keys: List[str]) -> bool:
+    """
+    Checks if a dictionary contains all specified keys.
+
+    Args:
+    - d (Dict[str, Any]): The dictionary to check.
+    - keys (List[str]): A list of keys to look for in the dictionary.
+
+    Returns:
+    - bool: True if all keys are present in the dictionary, False otherwise.
+    """
+    return all(key in d for key in keys)
 
 
-def json_to_dict(json_path):
-    with open(json_path, "r") as file:
-        return json.load(file)
+def json_to_dict(json_path: str) -> Dict[str, Any]:
+    """
+    Reads a JSON file and converts it to a dictionary.
+
+    Args:
+    - json_path (str): The path to the JSON file to be read.
+
+    Returns:
+    - Dict[str, Any]: The dictionary representation of the JSON data.
+
+    Raises:
+    - IOError: If there is an error opening or reading the file.
+    - json.JSONDecodeError: If there is an error decoding the JSON data.
+    """
+    try:
+        with open(json_path, "r", encoding="utf-8") as file:
+            return json.load(file)
+    except (IOError, json.JSONDecodeError) as e:
+        print(f"Error reading JSON file: {e}")
+        raise
 
 
-def save_xml(xml_content: ET.ElementTree, filename):
-    xml_content.write(filename, encoding="utf-8")
+def save_xml(xml_content: ET.ElementTree, filename: str) -> None:
+    """
+    Saves an XML tree to a file.
+
+    Args:
+    - xml_content (ET.ElementTree): The XML tree to be saved.
+    - filename (str): The path to the file where the XML tree will be saved.
+
+    Raises:
+    - IOError: If there is an error writing to the file.
+    """
+    try:
+        xml_content.write(filename, encoding="utf-8", xml_declaration=True)
+    except IOError as e:
+        print(f"Error saving XML file: {e}")
+        raise
 
 
-def encapsulation_signal(encapsulation: str):
+def encapsulation_signal(encapsulation: str) -> str:
+    """
+    Converts encapsulation type to its corresponding UML signal.
+
+    Args:
+    - encapsulation (str): The encapsulation type ('Public' or 'Private').
+
+    Returns:
+    - str: The UML signal corresponding to the encapsulation type ('+' for Public, '-' for Private).
+
+    Raises:
+    - ValueError: If the encapsulation type is unknown.
+    """
     if encapsulation == "Public":
         return "+"
-    return "-"
+    elif encapsulation == "Private":
+        return "-"
+    else:
+        raise ValueError(f"Unknown encapsulation type: {encapsulation}")
 
 
 def get_element_id(root: ET.Element, element_type: str, element_value: str) -> Optional[str]:
     """
-    Retorna o ID de um elemento XML que corresponde ao tipo e valor fornecidos.
+    Finds the ID of an XML element based on its type and a specific attribute value.
 
     Args:
-        root (ET.Element): O elemento raiz do XML.
-        element_type (str): O tipo do elemento a ser buscado (tag).
-        element_value (str): O valor do atributo 'value' do elemento.
+    - root (ET.Element): The root element of the XML tree.
+    - element_type (str): The tag name of the element to search for.
+    - element_value (str): The value of the 'value' attribute to match.
 
     Returns:
-        Optional[str]: O ID do elemento correspondente ou None se não encontrado.
+    - Optional[str]: The ID of the matching element, or None if no match is found.
     """
     for element in root.findall(element_type):
         if element.get('value') == element_value:
@@ -57,20 +129,16 @@ def get_element_id(root: ET.Element, element_type: str, element_value: str) -> O
     return None
 
 
-def get_elements_by_attribute(root: ET.Element, element_attribute: str, element_value: str) -> List[ET.Element]:
+def get_elements_by_attribute(root: ET.Element, attribute_name: str, attribute_value: str) -> List[ET.Element]:
     """
-    Retorna uma lista de elementos XML que possuem um atributo específico com um determinado valor.
+    Retrieves all XML elements that have a specific attribute with a given value.
 
     Args:
-        root (ET.Element): O elemento raiz do XML.
-        element_attribute (str): O nome do atributo a ser verificado.
-        element_value (str): O valor que o atributo deve ter.
+    - root (ET.Element): The root element of the XML tree.
+    - attribute_name (str): The name of the attribute to check.
+    - attribute_value (str): The value the attribute should have.
 
     Returns:
-        List[ET.Element]: Uma lista de elementos que correspondem ao atributo e valor fornecidos.
+    - List[ET.Element]: A list of XML elements matching the specified attribute and value.
     """
-    elements = []
-    for element in root.findall('.//*'):  # Busca todos os elementos
-        if element.get(element_attribute) == element_value:
-            elements.append(element)
-    return elements
+    return [element for element in root.findall('.//*') if element.get(attribute_name) == attribute_value]

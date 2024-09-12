@@ -2,6 +2,7 @@ import os
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
+import matplotlib.pyplot as plt
 
 from pydiagram.py_class_extractor import generate_classes_dicts_from_directory, generate_classes_dicts_from_file
 from pydiagram.py_class_extractor.ast_management import parse_ast_from_file
@@ -66,12 +67,10 @@ if __name__ == "__main__":
         r"pydiagram\py_class_extractor\schemas.py")
 
     diagram = DrawIODiagram("pydiagram")
-    metadata = generate_classes_dicts_from_file(
-        r"C:\Users\Aluno\Desktop\pydiagram\teste.py")
     # metadata = generate_classes_dicts_from_file(
-    #     r"C:\Users\Aluno\Desktop\pydiagram\pydiagram")
-    # metadata = generate_classes_dicts_from_directory(
-    #     r"C:\Users\Aluno\Desktop\pydiagram\pydiagram")
+    #     r"C:\Users\Aluno\Desktop\pydiagram\teste.py")
+    metadata = generate_classes_dicts_from_directory(
+        r"C:\Users\Aluno\Desktop\pydiagram\pydiagram")
     save_data_to_json("class.json", metadata)
 
     
@@ -98,7 +97,17 @@ if __name__ == "__main__":
     # print(G.edges)
     pos = pydot_layout(G, prog='dot')
     print(pos)
+    
+    node_size = 3000
+    node_color = 'lightblue'
+    edge_color = 'gray'
 
+    
+    plt.figure(figsize=(15, 10))
+    nx.draw(G, pos=pos, with_labels=True, node_size=node_size, node_color=node_color, edge_color=edge_color, font_size=10, font_weight='bold', arrows=True)
+    plt.title("Class Diagram with Pydot Layout")
+    plt.show()
+    
     classes = list()
     for class_metadata in metadata:
         if class_metadata["name"].replace("'","").replace("[","").replace("]","").replace(" ","").replace("(", "").replace(")", "").replace(",", "") in pos:

@@ -1,18 +1,21 @@
+from typing import List, Optional, Any, Tuple
 from pathlib import Path
-from typing import List, Tuple
 
 
-def extract_sublist_between(arr, start, end=None) -> List:
+def extract_sublist_between(arr: List[Any], start: Any, end: Optional[Any] = None) -> List[Any]:
     """
     Extracts a contiguous sublist from a given list starting from the specified start value up to (and including) the end value.
 
     Args:
-    - arr (list): The list from which to extract the sublist.
-    - start (any): The value to start the extraction from.
-    - end (any, optional): The value to end the extraction at. If not provided, the sublist will go from the start value to the end of the list.
+    - arr (List[Any]): The list from which to extract the sublist.
+    - start (Any): The value to start the extraction from.
+    - end (Optional[Any], optional): The value to end the extraction at. If not provided, the sublist will go from the start value to the end of the list.
 
     Returns:
-    - list: A sublist starting from the start value up to (and including) the end value. If no end value is provided, the sublist extends to the end of the list.
+    - List[Any]: A sublist starting from the start value up to (and including) the end value. If no end value is provided, the sublist extends to the end of the list.
+
+    Raises:
+    - ValueError: If start or end values are not found in the list, or if start appears after end.
 
     Example:
     >>> extract_sublist_between(["a", "b", "c", "d", "e"], "b", "d")
@@ -37,6 +40,7 @@ def extract_sublist_between(arr, start, end=None) -> List:
 
     return arr[start_index:end_index + 1]
 
+
 def split_path(module_path: str) -> Tuple[str, ...]:
     """
     Splits a file path into its component parts and removes the file extension.
@@ -54,6 +58,7 @@ def split_path(module_path: str) -> Tuple[str, ...]:
     path = Path(module_path)
 
     # Extract parts of the path and remove the '.py' extension from the last part
-    path_parts = [part for part in path.with_suffix('').parts if part]  # Avoid empty strings
+    path_parts = [part for part in path.with_suffix(
+        '').parts if part]  # Avoid empty strings
 
     return tuple(path_parts)
