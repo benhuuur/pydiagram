@@ -39,7 +39,6 @@ def process_file(file_path: str, base_module_name: str) -> list:
         analyzer = pydiagram.py_class_extractor.ast_collectors.RelationshipInspector(
             import_aliases, classes_info)
         class_info.relationships = analyzer.visit(class_nodes[index])
-        # print(class_metadata)
 
     return classes_info
 
@@ -82,6 +81,19 @@ def generate_classes_dicts_from_directory(directory_path: str) -> None:
     for file_path in python_file_paths:
         all_class_metadata_list.extend(
             process_file(file_path, base_module_name))
+
+    for class_metadata in all_class_metadata_list:
+        for relationship in class_metadata.relationships:
+            if relationship.type == "association":
+                continue
+
+            flag = True
+            for target_class_metadata in all_class_metadata_list:
+                if relationship.related == target_class_metadata.name and bool(set(relationship.related_module) & set(target_class_metadata.modules)):
+                    flag = False
+            if flag:
+                all_class_metadata_list.append(pydiagram.py_class_extractor.schemas.ClassInformation(
+                    tuple(relationship.related_module), relationship.related, [], [], []))
 
     # Convert all class metadata to dictionary format
     all_class_metadata_dicts = [metadata.to_dictionary()

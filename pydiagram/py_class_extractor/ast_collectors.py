@@ -249,6 +249,7 @@ class ClassDefInspector(ast.NodeVisitor):
 
 class RelationshipInspector(ast.NodeVisitor):
     def __init__(self, alias: dict, classes_info: list) -> None:
+        self.current_class = None
         self.alias = alias if alias else dict()
         self.relationships = list()
         self.current_inheritance: ast.AST = None
@@ -264,11 +265,11 @@ class RelationshipInspector(ast.NodeVisitor):
         Returns:
         - tuple: A tuple of RelationshipInformation objects representing inheritance relationships.
         """
+        self.current_class = node
+        
         for base in node.bases:
             self.current_inheritance = base
             inheritance_string = self.visit(base)
-
-            print("visit_ClassDef")
 
             updated_inheritance_string = self._substitute_aliases(
                 inheritance_string)
@@ -299,14 +300,11 @@ class RelationshipInspector(ast.NodeVisitor):
 
     def visit_AnnAssign(self, node: ast.AnnAssign) -> ast.AnnAssign:
         result = self.visit(node.annotation)
-
-        print("visit_AnnAssign")
-
         updated_result = self._substitute_aliases(
             result)
 
         for class_info in self.classes_info:
-            if class_info.name in updated_result:
+            if class_info.name in updated_result and self.current_class.name != class_info.name:
                 self.relationships.append(RelationshipInformation(
                     "association", class_info.modules, class_info.name))
 
@@ -366,10 +364,9 @@ class RelationshipInspector(ast.NodeVisitor):
 
         result = self.visit(node.func)
         if isinstance(result, str):
-            print("visit_Call")
             updated_result = self._substitute_aliases(result)
             for class_info in self.classes_info:
-                if class_info.name in updated_result:
+                if class_info.name in updated_result and self.current_class.name != class_info.name:
                     self.relationships.append(RelationshipInformation(
                         "association", class_info.modules, class_info.name))
 
@@ -409,15 +406,13 @@ class RelationshipInspector(ast.NodeVisitor):
         if node.annotation:
             result = self.visit(node.annotation)
 
-            print("visit_arg")
-
             if result is None:
                 print(ast.unparse(node))
 
             updated_result = self._substitute_aliases(
                 result)
             for class_info in self.classes_info:
-                if class_info.name in updated_result:
+                if class_info.name in updated_result and self.current_class.name != class_info.name:
                     self.relationships.append(RelationshipInformation(
                         "association", class_info.modules, class_info.name))
 
