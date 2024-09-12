@@ -84,13 +84,6 @@
                     "teste"
                 ],
                 "related": "B"
-            },
-            {
-                "type": "association",
-                "related_module": [
-                    "teste"
-                ],
-                "related": "C"
             }
         ],
         "attributes": [

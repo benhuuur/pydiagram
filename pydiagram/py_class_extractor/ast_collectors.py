@@ -249,6 +249,7 @@ class ClassDefInspector(ast.NodeVisitor):
 
 class RelationshipInspector(ast.NodeVisitor):
     def __init__(self, alias: dict, classes_info: list) -> None:
+        self.current_class = None
         self.alias = alias if alias else dict()
         self.relationships = list()
         self.current_inheritance: ast.AST = None
@@ -264,6 +265,8 @@ class RelationshipInspector(ast.NodeVisitor):
         Returns:
         - tuple: A tuple of RelationshipInformation objects representing inheritance relationships.
         """
+        self.current_class = node
+        
         for base in node.bases:
             self.current_inheritance = base
             inheritance_string = self.visit(base)
@@ -301,7 +304,7 @@ class RelationshipInspector(ast.NodeVisitor):
             result)
 
         for class_info in self.classes_info:
-            if class_info.name in updated_result:
+            if class_info.name in updated_result and self.current_class.name != class_info.name:
                 self.relationships.append(RelationshipInformation(
                     "association", class_info.modules, class_info.name))
 
@@ -363,7 +366,7 @@ class RelationshipInspector(ast.NodeVisitor):
         if isinstance(result, str):
             updated_result = self._substitute_aliases(result)
             for class_info in self.classes_info:
-                if class_info.name in updated_result:
+                if class_info.name in updated_result and self.current_class.name != class_info.name:
                     self.relationships.append(RelationshipInformation(
                         "association", class_info.modules, class_info.name))
 
@@ -409,7 +412,7 @@ class RelationshipInspector(ast.NodeVisitor):
             updated_result = self._substitute_aliases(
                 result)
             for class_info in self.classes_info:
-                if class_info.name in updated_result:
+                if class_info.name in updated_result and self.current_class.name != class_info.name:
                     self.relationships.append(RelationshipInformation(
                         "association", class_info.modules, class_info.name))
 

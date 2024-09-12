@@ -29,7 +29,12 @@ def install_graphviz():
     # Instala o Graphviz usando winget
     try:
         print("Instalando Graphviz...")
-        subprocess.run(['winget', 'install', 'Graphviz.Graphviz'], check=True)
+        subprocess.run([
+            'winget', 'install', 'Graphviz.Graphviz',
+            '--accept-source-agreements', 
+            '--accept-package-agreements'
+        ], check=True)
+        print("Graphviz instalado com sucesso.")
     except subprocess.CalledProcessError:
         print("Falha na instalação do Graphviz.")
         sys.exit(1)
