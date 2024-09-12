@@ -1,3 +1,6 @@
+import os
+import subprocess
+import sys
 import xml.etree.ElementTree as ET
 
 from pydiagram.py_class_extractor import generate_classes_dicts_from_directory, generate_classes_dicts_from_file
@@ -15,8 +18,49 @@ from networkx.drawing.nx_pydot import pydot_layout
 def has_common_element(arr1, arr2):
     return bool(set(arr1) & set(arr2))
 
+def install_graphviz():
+    # Verifica se o winget está disponível
+    try:
+        subprocess.run(['winget', '--version'], check=True)
+    except FileNotFoundError:
+        print("winget não está instalado. Você precisa instalar o winget primeiro.")
+        sys.exit(1)
 
+    # Instala o Graphviz usando winget
+    try:
+        print("Instalando Graphviz...")
+        subprocess.run(['winget', 'install', 'Graphviz.Graphviz'], check=True)
+    except subprocess.CalledProcessError:
+        print("Falha na instalação do Graphviz.")
+        sys.exit(1)
+
+def add_graphviz_to_path():
+    # Localiza o diretório bin do Graphviz
+    # Você pode precisar ajustar o caminho abaixo com base no local de instalação
+    graphviz_bin_dir = r"C:\Program Files\Graphviz\bin"
+    
+    # Obtém as variáveis de ambiente atuais
+    current_path = os.getenv('PATH', '')
+    
+    if graphviz_bin_dir not in current_path:
+        # Adiciona o diretório bin do Graphviz ao PATH
+        new_path = current_path + os.pathsep + graphviz_bin_dir
+        os.environ['PATH'] = new_path
+        
+        # Adiciona o diretório ao PATH de sistema, se possível
+        try:
+            subprocess.run(['setx', 'PATH', new_path], check=True)
+            print("Diretório Graphviz adicionado ao PATH.")
+        except subprocess.CalledProcessError:
+            print("Falha ao adicionar o diretório Graphviz ao PATH.")
+            sys.exit(1)
+    else:
+        print("O diretório Graphviz já está no PATH.")
+        
 if __name__ == "__main__":
+    install_graphviz()
+    add_graphviz_to_path()
+    
     ast = parse_ast_from_file(
         r"pydiagram\py_class_extractor\schemas.py")
 
