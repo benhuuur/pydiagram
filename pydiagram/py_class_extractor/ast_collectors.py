@@ -299,6 +299,7 @@ class ClassRelationshipInspector(ast.NodeVisitor):
         - tuple: A tuple of RelationshipInformation objects representing inheritance relationships.
         """
         self.current_class_node = node
+        self.relationships = []
 
         for base in node.bases:
             self.current_base_node = base
@@ -313,14 +314,14 @@ class ClassRelationshipInspector(ast.NodeVisitor):
                     if info.name == base_class_name:
                         self.relationships.append(RelationshipInformation(
                             relation_type="inheritance",
-                            name=info.name,
+                            related=info.name,
                             modules=info.modules
                         ))
                         break
             else:
                 self.relationships.append(RelationshipInformation(
                     relation_type="inheritance",
-                    name=base_class_name,
+                    related=base_class_name,
                     modules=base_modules
                 ))
 
@@ -346,7 +347,7 @@ class ClassRelationshipInspector(ast.NodeVisitor):
             if info.name in resolved_annotation and self.current_class_node.name != info.name:
                 self.relationships.append(RelationshipInformation(
                     relation_type="association",
-                    name=info.name,
+                    related=info.name,
                     modules=info.modules
                 ))
 
@@ -411,7 +412,7 @@ class ClassRelationshipInspector(ast.NodeVisitor):
                 if info.name in resolved_function_name and self.current_class_node.name != info.name:
                     self.relationships.append(RelationshipInformation(
                         relation_type="association",
-                        name=info.name,
+                        related=info.name,
                         modules=info.modules
                     ))
 
@@ -482,7 +483,7 @@ class ClassRelationshipInspector(ast.NodeVisitor):
                 if info.name in resolved_annotation and self.current_class_node.name != info.name:
                     self.relationships.append(RelationshipInformation(
                         relation_type="association",
-                        name=info.name,
+                        related=info.name,
                         modules=info.modules
                     ))
 

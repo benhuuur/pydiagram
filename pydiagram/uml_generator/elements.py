@@ -86,7 +86,7 @@ class UMLClassDiagramElement(ET.Element):
             dimensions (utils.Dimensions): Dimensions of the UML class element.
             parent (Any): The parent element to which this UML class element will be appended.
         """
-        super().__init__(tag='mxCell', attrib={'id': f'class-{uuid.uuid4()}'})
+        self.id = f"class-{uuid.uuid4()}"
         self._metadata = metadata
         self._dimensions = dimensions
         self._parent = parent
@@ -98,20 +98,19 @@ class UMLClassDiagramElement(ET.Element):
         """
         from .builders.elements import AttributeBuilder, MethodBuilder, StrokeBuilder
 
-        y_offset = self._dimensions.y
-        increment = 26
+        y_offset = 26
 
         # Create and append attributes
         attribute_builder = AttributeBuilder(self.id)
-        for attribute in self._metadata.get("attributes", []):
+        for attribute in self._metadata["attributes"]:
             attribute_dimensions = utils.Dimensions(
                 0, y_offset, self._dimensions.width, 26)
             attribute_element = attribute_builder.build(
                 attribute, attribute_dimensions)
             self.append(attribute_element)
-            y_offset += increment
+            y_offset += 26
 
-        # Create and append stroke
+         # Create and append stroke
         stroke_builder = StrokeBuilder(self.id)
         stroke_dimensions = utils.Dimensions(
             self._dimensions.x, y_offset, self._dimensions.width, 8)
@@ -121,18 +120,18 @@ class UMLClassDiagramElement(ET.Element):
 
         # Create and append methods
         method_builder = MethodBuilder(self.id)
-        for method in self._metadata.get("methods", []):
+        for method in self._metadata["methods"]:
             method_dimensions = utils.Dimensions(
                 0, y_offset, self._dimensions.width, 26)
             method_element = method_builder.build(method, method_dimensions)
             self.append(method_element)
-            y_offset += increment
+            y_offset += 26
 
         # Create and append header
         header_dimensions = utils.Dimensions(
             self._dimensions.x, self._dimensions.y, self._dimensions.width, y_offset)
         header_element = ClassHeader(
-            self._metadata.get("name", "Unnamed"), header_dimensions, self._parent, self.id)
+            self._metadata["name"], header_dimensions, self._parent, self.id)
         self.insert(0, header_element)
 
         self._dimensions = utils.Dimensions(
@@ -218,7 +217,7 @@ class ClassStroke(XmlElementFromString):
 <mxCell id="stroke-{uuid.uuid4()}-{parent}" value=""
 style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;"
 parent="{parent}" vertex="1">
-    <mxGeometry x="{x}" y="{y}" width="{width}" height="{height}" as="geometry" />
+    <mxGeometry y="{y}" width="{width}" height="{height}" as="geometry" />
 </mxCell>
         """
         super().__init__(xml_string)
