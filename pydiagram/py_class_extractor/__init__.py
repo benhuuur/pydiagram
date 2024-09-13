@@ -1,8 +1,8 @@
-import pydiagram.py_class_extractor.ast_management
-import pydiagram.py_class_extractor.ast_collectors
-import pydiagram.py_class_extractor.file_management
-import pydiagram.py_class_extractor.schemas
-import pydiagram.py_class_extractor.utils
+import pydiagram.py_class_extractor.ast_management as ast_mgmt
+import pydiagram.py_class_extractor.ast_collectors as ast_collectors
+import pydiagram.py_class_extractor.file_management as file_mgmt
+import pydiagram.py_class_extractor.schemas as schemas
+import pydiagram.py_class_extractor.utils as utils
 
 
 def process_file(file_path: str, base_module_name: str) -> list:
@@ -16,87 +16,97 @@ def process_file(file_path: str, base_module_name: str) -> list:
     Returns:
         list: A list of class metadata objects.
     """
-    ast_tree = pydiagram.py_class_extractor.ast_management.parse_ast_from_file(
-        file_path)
-    class_nodes = pydiagram.py_class_extractor.ast_management.extract_class_nodes(
-        ast_tree)
-    modules = pydiagram.py_class_extractor.utils.extract_sublist_between(
-        pydiagram.py_class_extractor.utils.split_path(
-            file_path), base_module_name
+    # Parse the abstract syntax tree (AST) from the file
+    ast_tree = ast_mgmt.parse_ast_from_file(file_path)
+
+    # Extract class nodes and module paths
+    class_nodes = ast_mgmt.extract_class_nodes(ast_tree)
+    module_paths = utils.extract_sublist_between(
+        utils.split_path(file_path), base_module_name
     )
+    import_aliases = ast_mgmt.extract_alias_imports(ast_tree)
 
-    import_aliases = pydiagram.py_class_extractor.ast_management.extract_alias_imports(
-        ast_tree)
+    class_metadata_list = []
+    for node in class_nodes:
+        metadata = ast_mgmt.get_class_metadata(node)
+        metadata.modules = module_paths
+        class_metadata_list.append(metadata)
 
-    classes_info = []
-    for class_node in class_nodes:
-        class_info = pydiagram.py_class_extractor.ast_management.get_class_metadata(
-            class_node)
-        class_info.modules = modules
-        classes_info.append(class_info)
+    # Analyze class relationships
+    relationship_analyzer = ast_collectors.ClassRelationshipInspector(
+        import_aliases, class_metadata_list)
+    for index, metadata in enumerate(class_metadata_list):
+        metadata.relationships = relationship_analyzer.visit(
+            class_nodes[index])
 
-    for index, class_info in enumerate(classes_info):
-        analyzer = pydiagram.py_class_extractor.ast_collectors.RelationshipInspector(
-            import_aliases, classes_info)
-        class_info.relationships = analyzer.visit(class_nodes[index])
-
-    return classes_info
+    return class_metadata_list
 
 
-def generate_classes_dicts_from_file(file_path: str) -> None:
+def generate_classes_dicts_from_file(file_path: str) -> list:
     """
-    Analyzes the specified Python file and generates a JSON file containing class metadata.
+    Analyzes the specified Python file and returns class metadata in dictionary format.
 
     Args:
         file_path (str): The path to the Python file to be analyzed.
-        output_path (str): The path to the output JSON file.
+
+    Returns:
+        list: A list of dictionaries representing class metadata.
     """
-    base_module_name = pydiagram.py_class_extractor.utils.split_path(
-        file_path)[-1]
+    base_module_name = utils.split_path(file_path)[-1]
     class_metadata_list = process_file(file_path, base_module_name)
 
+    all_class_names = {
+    metadata.name for metadata in class_metadata_list}
+    for metadata in class_metadata_list:
+        for relationship in metadata.relationships:
+            if relationship.relation_type != "association" and relationship.related not in all_class_names:
+                class_metadata_list.append(schemas.ClassInformation(
+                    tuple(relationship.modules), relationship.related, [], [], []
+                ))
+                all_class_names.add(relationship.related)
+                
     # Convert class metadata to dictionary format
     class_metadata_dicts = [metadata.to_dictionary()
                             for metadata in class_metadata_list]
+    
 
     return class_metadata_dicts
 
 
-def generate_classes_dicts_from_directory(directory_path: str) -> None:
+def generate_classes_dicts_from_directory(directory_path: str) -> list:
     """
-    Analyzes all Python files in the specified directory and generates a JSON file with class metadata
-    for all files combined.
+    Analyzes all Python files in the specified directory and returns a list of dictionaries
+    containing class metadata for all files combined.
 
     Args:
         directory_path (str): The path to the directory containing Python files.
-        output_filename (str): The name of the output JSON file.
+
+    Returns:
+        list: A list of dictionaries representing class metadata.
     """
-    python_file_paths = pydiagram.py_class_extractor.file_management.find_files_with_extension(
+    python_file_paths = file_mgmt.find_files_with_extension(
         directory_path, ".py")
-    base_module_name = pydiagram.py_class_extractor.utils.split_path(
-        directory_path)[-1]
+    base_module_name = utils.split_path(directory_path)[-1]
 
     # Collect metadata for all classes across all files
-    all_class_metadata_list = []
+    combined_class_metadata_list = []
     for file_path in python_file_paths:
-        all_class_metadata_list.extend(
+        combined_class_metadata_list.extend(
             process_file(file_path, base_module_name))
 
-    for class_metadata in all_class_metadata_list:
-        for relationship in class_metadata.relationships:
-            if relationship.type == "association":
-                continue
-
-            flag = True
-            for target_class_metadata in all_class_metadata_list:
-                if relationship.related == target_class_metadata.name and bool(set(relationship.related_module) & set(target_class_metadata.modules)):
-                    flag = False
-            if flag:
-                all_class_metadata_list.append(pydiagram.py_class_extractor.schemas.ClassInformation(
-                    tuple(relationship.related_module), relationship.related, [], [], []))
+    # Ensure all relationships are accounted for
+    all_class_names = {
+        metadata.name for metadata in combined_class_metadata_list}
+    for metadata in combined_class_metadata_list:
+        for relationship in metadata.relationships:
+            if relationship.relation_type != "association" and relationship.related not in all_class_names:
+                combined_class_metadata_list.append(schemas.ClassInformation(
+                    tuple(relationship.modules), relationship.related, [], [], []
+                ))
+                all_class_names.add(relationship.related)
 
     # Convert all class metadata to dictionary format
-    all_class_metadata_dicts = [metadata.to_dictionary()
-                                for metadata in all_class_metadata_list]
+    combined_class_metadata_dicts = [
+        metadata.to_dictionary() for metadata in combined_class_metadata_list]
 
-    return all_class_metadata_dicts
+    return combined_class_metadata_dicts

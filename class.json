@@ -1,13 +1,24 @@
 [
     {
-        "name": "A",
+        "name": "ClassDefCollector",
         "modules": [
-            "teste"
+            "pydiagram",
+            "pydiagram",
+            "py_class_extractor",
+            "ast_collectors"
         ],
-        "relationships": [],
+        "relationships": [
+            {
+                "relation_type": "inheritance",
+                "related": "NodeVisitor",
+                "modules": [
+                    "ast"
+                ]
+            }
+        ],
         "attributes": [
             {
-                "name": "attribute",
+                "name": "collected_classes",
                 "data_type": null,
                 "encapsulation": "Public"
             }
@@ -22,7 +33,479 @@
                 "encapsulation": "Public"
             },
             {
-                "name": "method",
+                "name": "visit_ClassDef",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            }
+        ]
+    },
+    {
+        "name": "ClassMetadataInspector",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "py_class_extractor",
+            "ast_collectors"
+        ],
+        "relationships": [
+            {
+                "relation_type": "inheritance",
+                "related": "NodeVisitor",
+                "modules": [
+                    "ast"
+                ]
+            }
+        ],
+        "attributes": [
+            {
+                "name": "current_class",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "current_function",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "current_assignment",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "methods",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "attributes",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_ClassDef",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_FunctionDef",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_AsyncFunctionDef",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_AnnAssign",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_Assign",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_Attribute",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_Name",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_Constant",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_Tuple",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_arg",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "_get_encapsulation_level",
+                "args": [
+                    "self",
+                    "name"
+                ],
+                "return_value": null,
+                "encapsulation": "Private"
+            },
+            {
+                "name": "_is_valid_attribute_assignment",
+                "args": [
+                    "self"
+                ],
+                "return_value": null,
+                "encapsulation": "Private"
+            }
+        ]
+    },
+    {
+        "name": "ClassRelationshipInspector",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "py_class_extractor",
+            "ast_collectors"
+        ],
+        "relationships": [
+            {
+                "relation_type": "inheritance",
+                "related": "NodeVisitor",
+                "modules": [
+                    "ast"
+                ]
+            }
+        ],
+        "attributes": [
+            {
+                "name": "current_class_node",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "alias_map",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "relationships",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "current_base_node",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "class_info_list",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self",
+                    "alias_map",
+                    "class_info_list"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_ClassDef",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_AnnAssign",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_Attribute",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_Subscript",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_Name",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_Call",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_BinOp",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_Constant",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_Tuple",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_List",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_arg",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "_resolve_aliases",
+                "args": [
+                    "self",
+                    "qualified_name"
+                ],
+                "return_value": null,
+                "encapsulation": "Private"
+            }
+        ]
+    },
+    {
+        "name": "ImportCollector",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "py_class_extractor",
+            "ast_collectors"
+        ],
+        "relationships": [
+            {
+                "relation_type": "inheritance",
+                "related": "NodeVisitor",
+                "modules": [
+                    "ast"
+                ]
+            }
+        ],
+        "attributes": [
+            {
+                "name": "import_nodes",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_Import",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_ImportFrom",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            }
+        ]
+    },
+    {
+        "name": "AliasInspector",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "py_class_extractor",
+            "ast_collectors"
+        ],
+        "relationships": [
+            {
+                "relation_type": "inheritance",
+                "related": "NodeVisitor",
+                "modules": [
+                    "ast"
+                ]
+            }
+        ],
+        "attributes": [
+            {
+                "name": "alias_map",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_Import",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "visit_ImportFrom",
+                "args": [
+                    "self",
+                    "node"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "_extract_aliases",
+                "args": [
+                    "self",
+                    "alias_node"
+                ],
+                "return_value": null,
+                "encapsulation": "Private"
+            }
+        ]
+    },
+    {
+        "name": "SerializableToDict",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "py_class_extractor",
+            "file_management"
+        ],
+        "relationships": [
+            {
+                "relation_type": "inheritance",
+                "related": "ABC",
+                "modules": [
+                    "abc"
+                ]
+            }
+        ],
+        "attributes": [],
+        "methods": [
+            {
+                "name": "to_dictionary",
                 "args": [
                     "self"
                 ],
@@ -32,17 +515,244 @@
         ]
     },
     {
-        "name": "B",
+        "name": "AttributeInformation",
         "modules": [
-            "teste"
+            "pydiagram",
+            "pydiagram",
+            "py_class_extractor",
+            "schemas"
+        ],
+        "relationships": [],
+        "attributes": [
+            {
+                "name": "name",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "data_type",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "encapsulation",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": []
+    },
+    {
+        "name": "FunctionInformation",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "py_class_extractor",
+            "schemas"
+        ],
+        "relationships": [],
+        "attributes": [
+            {
+                "name": "name",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "args",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "return_value",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "encapsulation",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": []
+    },
+    {
+        "name": "RelationshipInformation",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "py_class_extractor",
+            "schemas"
+        ],
+        "relationships": [],
+        "attributes": [
+            {
+                "name": "relation_type",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "related",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "modules",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": []
+    },
+    {
+        "name": "ClassInformation",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "py_class_extractor",
+            "schemas"
         ],
         "relationships": [
             {
-                "type": "inheritance",
-                "related_module": [
-                    "teste"
+                "relation_type": "inheritance",
+                "related": "SerializableToDict",
+                "modules": [
+                    "pydiagram",
+                    "py_class_extractor",
+                    "file_management"
+                ]
+            },
+            {
+                "relation_type": "association",
+                "related": "RelationshipInformation",
+                "modules": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "schemas"
+                ]
+            },
+            {
+                "relation_type": "association",
+                "related": "AttributeInformation",
+                "modules": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "schemas"
+                ]
+            },
+            {
+                "relation_type": "association",
+                "related": "FunctionInformation",
+                "modules": [
+                    "pydiagram",
+                    "pydiagram",
+                    "py_class_extractor",
+                    "schemas"
+                ]
+            }
+        ],
+        "attributes": [
+            {
+                "name": "modules",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "name",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "relationships",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "attributes",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "methods",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": [
+            {
+                "name": "to_dictionary",
+                "args": [
+                    "self"
                 ],
-                "related": "A"
+                "return_value": null,
+                "encapsulation": "Public"
+            }
+        ]
+    },
+    {
+        "name": "XmlElementFromString",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "uml_generator",
+            "base"
+        ],
+        "relationships": [
+            {
+                "relation_type": "inheritance",
+                "related": "Element",
+                "modules": [
+                    "xml",
+                    "etree",
+                    "ElementTree"
+                ]
+            }
+        ],
+        "attributes": [
+            {
+                "name": "root",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "text",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "tail",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self",
+                    "string"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            }
+        ]
+    },
+    {
+        "name": "UMLRelationship",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "uml_generator",
+            "base"
+        ],
+        "relationships": [
+            {
+                "relation_type": "inheritance",
+                "related": "ABC",
+                "modules": [
+                    "abc"
+                ]
             }
         ],
         "attributes": [],
@@ -50,15 +760,10 @@
             {
                 "name": "__init__",
                 "args": [
-                    "self"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "method",
-                "args": [
-                    "self"
+                    "self",
+                    "parent",
+                    "source",
+                    "target"
                 ],
                 "return_value": null,
                 "encapsulation": "Public"
@@ -66,29 +771,18 @@
         ]
     },
     {
-        "name": "C",
+        "name": "AttributeBuilder",
         "modules": [
-            "teste"
+            "pydiagram",
+            "pydiagram",
+            "uml_generator",
+            "builders",
+            "elements"
         ],
-        "relationships": [
-            {
-                "type": "inheritance",
-                "related_module": [
-                    "teste"
-                ],
-                "related": "A"
-            },
-            {
-                "type": "inheritance",
-                "related_module": [
-                    "teste"
-                ],
-                "related": "B"
-            }
-        ],
+        "relationships": [],
         "attributes": [
             {
-                "name": "id",
+                "name": "class_id",
                 "data_type": null,
                 "encapsulation": "Public"
             }
@@ -97,19 +791,761 @@
             {
                 "name": "__init__",
                 "args": [
-                    "self"
+                    "self",
+                    "class_id"
                 ],
                 "return_value": null,
                 "encapsulation": "Public"
             },
             {
-                "name": "method",
+                "name": "build",
                 "args": [
-                    "self"
+                    "self",
+                    "metadata",
+                    "dimensions"
                 ],
                 "return_value": null,
                 "encapsulation": "Public"
             }
         ]
+    },
+    {
+        "name": "StrokeBuilder",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "uml_generator",
+            "builders",
+            "elements"
+        ],
+        "relationships": [],
+        "attributes": [
+            {
+                "name": "class_id",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self",
+                    "class_id"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "build",
+                "args": [
+                    "self",
+                    "dimensions"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            }
+        ]
+    },
+    {
+        "name": "MethodBuilder",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "uml_generator",
+            "builders",
+            "elements"
+        ],
+        "relationships": [],
+        "attributes": [
+            {
+                "name": "class_id",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self",
+                    "class_id"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "build",
+                "args": [
+                    "self",
+                    "metadata",
+                    "dimensions"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            }
+        ]
+    },
+    {
+        "name": "RelationshipBuilder",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "uml_generator",
+            "builders",
+            "relationships"
+        ],
+        "relationships": [],
+        "attributes": [
+            {
+                "name": "parent",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "source",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self",
+                    "parent",
+                    "source"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "build",
+                "args": [
+                    "self",
+                    "relationship_class",
+                    "target"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            }
+        ]
+    },
+    {
+        "name": "DrawIODiagram",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "uml_generator",
+            "elements"
+        ],
+        "relationships": [
+            {
+                "relation_type": "inheritance",
+                "related": "XmlElementFromString",
+                "modules": [
+                    "base"
+                ]
+            }
+        ],
+        "attributes": [
+            {
+                "name": "id",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "default_parent_id",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "xml_string",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self",
+                    "name"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "append",
+                "args": [
+                    "self",
+                    "subelement"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "extend",
+                "args": [
+                    "self",
+                    "elements"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            }
+        ]
+    },
+    {
+        "name": "UMLClassDiagramElement",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "uml_generator",
+            "elements"
+        ],
+        "relationships": [
+            {
+                "relation_type": "inheritance",
+                "related": "Element",
+                "modules": [
+                    "xml",
+                    "etree",
+                    "ElementTree"
+                ]
+            },
+            {
+                "relation_type": "association",
+                "related": "ClassHeader",
+                "modules": [
+                    "pydiagram",
+                    "pydiagram",
+                    "uml_generator",
+                    "elements"
+                ]
+            }
+        ],
+        "attributes": [
+            {
+                "name": "id",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "_metadata",
+                "data_type": null,
+                "encapsulation": "Private"
+            },
+            {
+                "name": "_dimensions",
+                "data_type": null,
+                "encapsulation": "Private"
+            },
+            {
+                "name": "_parent",
+                "data_type": null,
+                "encapsulation": "Private"
+            }
+        ],
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self",
+                    "metadata",
+                    "dimensions",
+                    "parent"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "_build_class",
+                "args": [
+                    "self"
+                ],
+                "return_value": null,
+                "encapsulation": "Private"
+            }
+        ]
+    },
+    {
+        "name": "ClassHeader",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "uml_generator",
+            "elements"
+        ],
+        "relationships": [
+            {
+                "relation_type": "inheritance",
+                "related": "XmlElementFromString",
+                "modules": [
+                    "base"
+                ]
+            }
+        ],
+        "attributes": [
+            {
+                "name": "x",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "x",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "y",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "y",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "width",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "width",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "height",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "height",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "xml_string",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self",
+                    "name",
+                    "dimensions",
+                    "parent",
+                    "id"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            }
+        ]
+    },
+    {
+        "name": "ClassMethod",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "uml_generator",
+            "elements"
+        ],
+        "relationships": [
+            {
+                "relation_type": "inheritance",
+                "related": "XmlElementFromString",
+                "modules": [
+                    "base"
+                ]
+            }
+        ],
+        "attributes": [
+            {
+                "name": "x",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "x",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "y",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "y",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "width",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "width",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "height",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "height",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "xml_string",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self",
+                    "dimensions",
+                    "encapsulation",
+                    "name",
+                    "args",
+                    "parent"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            }
+        ]
+    },
+    {
+        "name": "ClassStroke",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "uml_generator",
+            "elements"
+        ],
+        "relationships": [
+            {
+                "relation_type": "inheritance",
+                "related": "XmlElementFromString",
+                "modules": [
+                    "base"
+                ]
+            }
+        ],
+        "attributes": [
+            {
+                "name": "x",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "x",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "y",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "y",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "width",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "width",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "height",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "height",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "xml_string",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self",
+                    "parent",
+                    "dimensions"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            }
+        ]
+    },
+    {
+        "name": "ClassAttribute",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "uml_generator",
+            "elements"
+        ],
+        "relationships": [
+            {
+                "relation_type": "inheritance",
+                "related": "XmlElementFromString",
+                "modules": [
+                    "base"
+                ]
+            }
+        ],
+        "attributes": [
+            {
+                "name": "x",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "x",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "y",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "y",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "width",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "width",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "height",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "height",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "xml_string",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self",
+                    "parent",
+                    "encapsulation",
+                    "name",
+                    "data_type",
+                    "dimensions"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            }
+        ]
+    },
+    {
+        "name": "InheritanceRelationship",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "uml_generator",
+            "relationships"
+        ],
+        "relationships": [
+            {
+                "relation_type": "inheritance",
+                "related": "XmlElementFromString",
+                "modules": [
+                    "base"
+                ]
+            },
+            {
+                "relation_type": "inheritance",
+                "related": "UMLRelationship",
+                "modules": [
+                    "base"
+                ]
+            }
+        ],
+        "attributes": [
+            {
+                "name": "unique_id",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "xml_string",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self",
+                    "parent",
+                    "source",
+                    "target"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            }
+        ]
+    },
+    {
+        "name": "AssociationRelationship",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "uml_generator",
+            "relationships"
+        ],
+        "relationships": [
+            {
+                "relation_type": "inheritance",
+                "related": "XmlElementFromString",
+                "modules": [
+                    "base"
+                ]
+            },
+            {
+                "relation_type": "inheritance",
+                "related": "UMLRelationship",
+                "modules": [
+                    "base"
+                ]
+            }
+        ],
+        "attributes": [
+            {
+                "name": "unique_id",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "xml_string",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self",
+                    "parent",
+                    "source",
+                    "target"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            }
+        ]
+    },
+    {
+        "name": "Dimensions",
+        "modules": [
+            "pydiagram",
+            "pydiagram",
+            "uml_generator",
+            "utils"
+        ],
+        "relationships": [
+            {
+                "relation_type": "inheritance",
+                "related": "namedtuple('Dimensions', ['x', 'y', 'width', 'height'])",
+                "modules": [
+                    "collections"
+                ]
+            }
+        ],
+        "attributes": [
+            {
+                "name": "__slots__",
+                "data_type": null,
+                "encapsulation": "Public"
+            }
+        ],
+        "methods": []
+    },
+    {
+        "name": "NodeVisitor",
+        "modules": [
+            "ast"
+        ],
+        "relationships": [],
+        "attributes": [],
+        "methods": []
+    },
+    {
+        "name": "ABC",
+        "modules": [
+            "abc"
+        ],
+        "relationships": [],
+        "attributes": [],
+        "methods": []
+    },
+    {
+        "name": "Element",
+        "modules": [
+            "xml",
+            "etree",
+            "ElementTree"
+        ],
+        "relationships": [],
+        "attributes": [],
+        "methods": []
+    },
+    {
+        "name": "namedtuple('Dimensions', ['x', 'y', 'width', 'height'])",
+        "modules": [
+            "collections"
+        ],
+        "relationships": [],
+        "attributes": [],
+        "methods": []
     }
 ]
