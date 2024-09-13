@@ -1,3 +1,4 @@
+import logging
 import os
 import subprocess
 import sys
@@ -15,136 +16,147 @@ from pydiagram.uml_generator.utils import Dimensions
 import networkx as nx
 from networkx.drawing.nx_pydot import pydot_layout
 
+# Configure logging
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 def has_common_element(arr1, arr2):
     return bool(set(arr1) & set(arr2))
 
 
 def install_graphviz():
-    # Verifica se o winget está disponível
+    """Install Graphviz using winget if it's not already installed."""
     try:
-        subprocess.run(['winget', '--version'], check=True)
+        # Check if Graphviz is already installed
+        result = subprocess.run(
+            ['winget', 'list', 'Graphviz.Graphviz'], capture_output=True, text=True, check=True)
+        if "Graphviz" in result.stdout:
+            logging.info("Graphviz is already installed.")
+            return
     except FileNotFoundError:
-        print("winget não está instalado. Você precisa instalar o winget primeiro.")
+        logging.error("winget not found. Please install winget first.")
+        sys.exit(1)
+    except subprocess.CalledProcessError:
+        logging.error("Error checking Graphviz installation status.")
         sys.exit(1)
 
-    print("Instalando Graphviz...")
-    subprocess.run([
-        'winget', 'install', 'Graphviz.Graphviz',
-        '--accept-source-agreements',
-        '--accept-package-agreements'
-    ])
-    print("Graphviz instalado com sucesso.")
+    logging.info("Installing Graphviz...")
+    try:
+        subprocess.run([
+            'winget', 'install', 'Graphviz.Graphviz',
+            '--accept-source-agreements',
+            '--accept-package-agreements'
+        ], check=True)
+        logging.info("Graphviz installed successfully.")
+    except subprocess.CalledProcessError:
+        logging.error("Failed to install Graphviz.")
+        sys.exit(1)
 
 
 def add_graphviz_to_path():
-    # Localiza o diretório bin do Graphviz
-    # Você pode precisar ajustar o caminho abaixo com base no local de instalação
+    """Add Graphviz to system PATH."""
     graphviz_bin_dir = r"C:\Program Files\Graphviz\bin"
-
-    # Obtém as variáveis de ambiente atuais
     current_path = os.getenv('PATH', '')
 
     if graphviz_bin_dir not in current_path:
-        # Adiciona o diretório bin do Graphviz ao PATH
-        new_path = current_path + os.pathsep + graphviz_bin_dir
+        new_path = os.pathsep.join([current_path, graphviz_bin_dir])
         os.environ['PATH'] = new_path
 
-        # Adiciona o diretório ao PATH de sistema, se possível
         try:
             subprocess.run(['setx', 'PATH', new_path], check=True)
-            print("Diretório Graphviz adicionado ao PATH.")
+            logging.info("Graphviz directory added to PATH.")
         except subprocess.CalledProcessError:
-            print("Falha ao adicionar o diretório Graphviz ao PATH.")
+            logging.error("Failed to add Graphviz directory to PATH.")
             sys.exit(1)
     else:
-        print("O diretório Graphviz já está no PATH.")
+        logging.info("Graphviz directory is already in PATH.")
 
 
-if __name__ == "__main__":
+def sanitize_class_name(name):
+    """Sanitize class names to be used as node identifiers."""
+    return ''.join(char for char in name if char.isalnum() or char == '_')
+
+
+def autolayout_class_diagram(metadata):
+    """Generate and save a class diagram from the metadata."""
+    G = nx.DiGraph()
+    for cls in metadata:
+        sanitized_name = sanitize_class_name(cls["name"])
+        G.add_node(sanitized_name, label=cls["name"])
+
+    for cls in metadata:
+        source_name = sanitize_class_name(cls["name"])
+        for rel in cls["relationships"]:
+            target_name = sanitize_class_name(rel.get("related", ""))
+            if target_name in G.nodes:
+                G.add_edge(source_name, target_name)
+
+    pos = pydot_layout(G, prog='sfdp')
+    return pos
+
+
+def create_uml_classes(metadata, diagram, positions):
+    """Create UML class elements from metadata."""
+    classes = []
+    for class_metadata in metadata:
+        sanitized_name = sanitize_class_name(class_metadata["name"])
+        if sanitized_name in positions:
+            x, y = positions[sanitized_name]
+            dimensions = Dimensions(x=x * 2, y=y * 4, width=160, height=26)
+            print(dimensions)
+            UML_class = UMLClassDiagramElement(
+                class_metadata, dimensions, diagram.default_parent_id)
+            classes.append(UML_class)
+        else:
+            logging.warning(
+                f"Node {class_metadata['name']} not found in positions.")
+    return classes
+
+
+def create_relationships(metadata, classes, diagram):
+    """Create relationships between UML classes."""
+    relationships = []
+    for source_index, source_class_metadata in enumerate(metadata):
+        source_id = classes[source_index].id
+        for relationship in source_class_metadata["relationships"]:
+            builder = RelationshipBuilder(diagram.default_parent_id, source_id)
+            for target_index, target_class_metadata in enumerate(metadata):
+                if (relationship["related"] == target_class_metadata["name"] and
+                        has_common_element(relationship["modules"], target_class_metadata["modules"])):
+                    if relationship["relation_type"] == "inheritance":
+                        relationships.append(builder.build(
+                            InheritanceRelationship, classes[target_index].id))
+                    elif relationship["relation_type"] == "association":
+                        relationships.append(builder.build(
+                            AssociationRelationship, classes[target_index].id))
+    return relationships
+
+
+def main():
     install_graphviz()
     add_graphviz_to_path()
 
-    ast = parse_ast_from_file(
-        r"pydiagram\py_class_extractor\schemas.py")
-
-    diagram = DrawIODiagram("pydiagram")
     metadata = generate_classes_dicts_from_file(
         r"C:\Users\Aluno\Desktop\pydiagram\teste.py")
-    # metadata = generate_classes_dicts_from_directory(
-    #     r"C:\Users\Aluno\Desktop\pydiagram\pydiagram")
+    metadata = generate_classes_dicts_from_directory(
+        r"C:\Users\Aluno\Desktop\pydiagram\pydiagram")
     save_data_to_json("class.json", metadata)
 
-    G = nx.DiGraph()
-    for cls in metadata:
-        if "[" in cls["name"]:
-            print("")
-        correct = cls["name"].replace("'", "").replace("[", "").replace("]", "").replace(
-            " ", "").replace("(", "").replace(")", "").replace(",", "")
-        G.add_node(correct, label=correct)
+    positions = autolayout_class_diagram(metadata)
+    print(positions)
 
-    for cls in metadata:
-        for rel in cls["relationships"]:
-            related_class = rel.get("related").replace("'", "").replace("[", "").replace(
-                "]", "").replace(" ", "").replace("(", "").replace(")", "").replace(",", "")
-            if related_class and related_class in G.nodes:
-                G.add_edge(related_class,
-                           cls["name"].replace("'", "").replace("[", "").replace("]", "").replace(" ", "").replace("(", "").replace(")", "").replace(",", ""))
-
-    # print(G.nodes)
-    # print(G.edges)
-    pos = pydot_layout(G, prog='dot')
-    print(pos)
-
-    node_size = 3000
-    node_color = 'lightblue'
-    edge_color = 'gray'
-
-    plt.figure(figsize=(15, 10))
-    nx.draw(G, pos=pos, with_labels=True, node_size=node_size, node_color=node_color,
-            edge_color=edge_color, font_size=10, font_weight='bold', arrows=True)
-    plt.title("Class Diagram with Pydot Layout")
-    plt.show()
-
-    classes = list()
-    for class_metadata in metadata:
-        if class_metadata["name"].replace("'", "").replace("[", "").replace("]", "").replace(" ", "").replace("(", "").replace(")", "").replace(",", "") in pos:
-            x = pos[class_metadata["name"].replace("'", "").replace("[", "").replace(
-                "]", "").replace(" ", "").replace("(", "").replace(")", "").replace(",", "")][0] * 2
-            y = pos[class_metadata["name"].replace("'", "").replace("[", "").replace(
-                "]", "").replace(" ", "").replace("(", "").replace(")", "").replace(",", "")][1] * 3
-        else:
-            print(f"Node {class_metadata['name']} not found in positions.")
-            continue
-
-        dimensions = Dimensions(x, y, 160, 26)
-        UML_class = UMLClassDiagramElement(
-            class_metadata, dimensions, diagram.default_parent_id)
-        classes.append(UML_class)
-        # x += 170
-
-    relationships = list()
-    view = list()
-    for source_index, source_class_metadata in enumerate(metadata):
-        for relationship in source_class_metadata["relationships"]:
-            source_id = classes[source_index].id
-            parent_id = diagram.default_parent_id
-            builder = RelationshipBuilder(parent_id, source_id)
-
-            if relationship["relation_type"] == "inheritance":
-                for target_index, target_class_metadata in enumerate(metadata):
-                    if (relationship["related"] == target_class_metadata["name"]) and has_common_element(relationship["modules"], target_class_metadata["modules"]):
-                        view.append((source_class_metadata["name"], target_class_metadata["name"]))
-                        relationships.append(builder.build(
-                            InheritanceRelationship, classes[target_index].id))
-
-            elif relationship["relation_type"] == "association":
-                for target_index, target_class_metadata in enumerate(metadata):
-                    if (relationship["related"] == target_class_metadata["name"]) and has_common_element(relationship["modules"], target_class_metadata["modules"]):
-                        relationships.append(builder.build(
-                            AssociationRelationship, classes[target_index].id))
+    diagram = DrawIODiagram("pydiagram")
+    classes = create_uml_classes(metadata, diagram, positions)
+    relationships = create_relationships(metadata, classes, diagram)
 
     diagram.extend(relationships)
     diagram.extend(classes)
     with open('output.xml', 'w', encoding='utf-8') as file:
         file.write(ET.tostring(diagram, encoding='unicode'))
+
+    logging.info("UML diagram saved as 'output.xml'.")
+
+
+if __name__ == "__main__":
+    main()
