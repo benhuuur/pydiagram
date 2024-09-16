@@ -30,7 +30,7 @@ def install_graphviz():
     try:
         # Check if Graphviz is already installed
         result = subprocess.run(
-            ['winget', 'list', 'Graphviz.Graphviz'], capture_output=True, text=True, check=True)
+            ['winget', 'list', 'Graphviz.Graphviz'], capture_output=True, text=True)
         if "Graphviz" in result.stdout:
             logging.info("Graphviz is already installed.")
             return
