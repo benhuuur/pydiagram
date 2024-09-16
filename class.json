@@ -1,250 +1,26 @@
 [
     {
-        "name": "ClassDefCollector",
+        "name": "Pessoa",
         "modules": [
-            "pydiagram",
-            "pydiagram",
-            "py_class_extractor",
-            "ast_collectors"
+            "test_2"
         ],
         "relationships": [
             {
-                "relation_type": "inheritance",
-                "related": "NodeVisitor",
+                "relation_type": "association",
+                "related": "Endereco",
                 "modules": [
-                    "ast"
+                    "test_2"
                 ]
             }
         ],
         "attributes": [
             {
-                "name": "collected_classes",
-                "data_type": null,
-                "encapsulation": "Public"
-            }
-        ],
-        "methods": [
-            {
-                "name": "__init__",
-                "args": [
-                    "self"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_ClassDef",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            }
-        ]
-    },
-    {
-        "name": "ClassMetadataInspector",
-        "modules": [
-            "pydiagram",
-            "pydiagram",
-            "py_class_extractor",
-            "ast_collectors"
-        ],
-        "relationships": [
-            {
-                "relation_type": "inheritance",
-                "related": "NodeVisitor",
-                "modules": [
-                    "ast"
-                ]
-            }
-        ],
-        "attributes": [
-            {
-                "name": "current_class",
+                "name": "nome",
                 "data_type": null,
                 "encapsulation": "Public"
             },
             {
-                "name": "current_function",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "current_assignment",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "methods",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "attributes",
-                "data_type": null,
-                "encapsulation": "Public"
-            }
-        ],
-        "methods": [
-            {
-                "name": "__init__",
-                "args": [
-                    "self"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_ClassDef",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_FunctionDef",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_AsyncFunctionDef",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_AnnAssign",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_Assign",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_Attribute",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_Name",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_Constant",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_Tuple",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_arg",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "_get_encapsulation_level",
-                "args": [
-                    "self",
-                    "name"
-                ],
-                "return_value": null,
-                "encapsulation": "Private"
-            },
-            {
-                "name": "_is_valid_attribute_assignment",
-                "args": [
-                    "self"
-                ],
-                "return_value": null,
-                "encapsulation": "Private"
-            }
-        ]
-    },
-    {
-        "name": "ClassRelationshipInspector",
-        "modules": [
-            "pydiagram",
-            "pydiagram",
-            "py_class_extractor",
-            "ast_collectors"
-        ],
-        "relationships": [
-            {
-                "relation_type": "inheritance",
-                "related": "NodeVisitor",
-                "modules": [
-                    "ast"
-                ]
-            }
-        ],
-        "attributes": [
-            {
-                "name": "current_class_node",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "alias_map",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "relationships",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "current_base_node",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "class_info_list",
+                "name": "endereco",
                 "data_type": null,
                 "encapsulation": "Public"
             }
@@ -254,258 +30,14 @@
                 "name": "__init__",
                 "args": [
                     "self",
-                    "alias_map",
-                    "class_info_list"
+                    "nome",
+                    "endereco"
                 ],
                 "return_value": null,
                 "encapsulation": "Public"
             },
             {
-                "name": "visit_ClassDef",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_AnnAssign",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_Attribute",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_Subscript",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_Name",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_Call",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_BinOp",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_Constant",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_Tuple",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_List",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_arg",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "_resolve_aliases",
-                "args": [
-                    "self",
-                    "qualified_name"
-                ],
-                "return_value": null,
-                "encapsulation": "Private"
-            }
-        ]
-    },
-    {
-        "name": "ImportCollector",
-        "modules": [
-            "pydiagram",
-            "pydiagram",
-            "py_class_extractor",
-            "ast_collectors"
-        ],
-        "relationships": [
-            {
-                "relation_type": "inheritance",
-                "related": "NodeVisitor",
-                "modules": [
-                    "ast"
-                ]
-            }
-        ],
-        "attributes": [
-            {
-                "name": "import_nodes",
-                "data_type": null,
-                "encapsulation": "Public"
-            }
-        ],
-        "methods": [
-            {
-                "name": "__init__",
-                "args": [
-                    "self"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_Import",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_ImportFrom",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            }
-        ]
-    },
-    {
-        "name": "AliasInspector",
-        "modules": [
-            "pydiagram",
-            "pydiagram",
-            "py_class_extractor",
-            "ast_collectors"
-        ],
-        "relationships": [
-            {
-                "relation_type": "inheritance",
-                "related": "NodeVisitor",
-                "modules": [
-                    "ast"
-                ]
-            }
-        ],
-        "attributes": [
-            {
-                "name": "alias_map",
-                "data_type": null,
-                "encapsulation": "Public"
-            }
-        ],
-        "methods": [
-            {
-                "name": "__init__",
-                "args": [
-                    "self"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_Import",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "visit_ImportFrom",
-                "args": [
-                    "self",
-                    "node"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "_extract_aliases",
-                "args": [
-                    "self",
-                    "alias_node"
-                ],
-                "return_value": null,
-                "encapsulation": "Private"
-            }
-        ]
-    },
-    {
-        "name": "SerializableToDict",
-        "modules": [
-            "pydiagram",
-            "pydiagram",
-            "py_class_extractor",
-            "file_management"
-        ],
-        "relationships": [
-            {
-                "relation_type": "inheritance",
-                "related": "ABC",
-                "modules": [
-                    "abc"
-                ]
-            }
-        ],
-        "attributes": [],
-        "methods": [
-            {
-                "name": "to_dictionary",
+                "name": "__str__",
                 "args": [
                     "self"
                 ],
@@ -515,173 +47,213 @@
         ]
     },
     {
-        "name": "AttributeInformation",
+        "name": "Autor",
         "modules": [
-            "pydiagram",
-            "pydiagram",
-            "py_class_extractor",
-            "schemas"
+            "test_2"
         ],
         "relationships": [],
         "attributes": [
             {
-                "name": "name",
+                "name": "nome",
                 "data_type": null,
                 "encapsulation": "Public"
             },
             {
-                "name": "data_type",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "encapsulation",
+                "name": "nacionalidade",
                 "data_type": null,
                 "encapsulation": "Public"
             }
         ],
-        "methods": []
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self",
+                    "nome",
+                    "nacionalidade"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "__str__",
+                "args": [
+                    "self"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            }
+        ]
     },
     {
-        "name": "FunctionInformation",
+        "name": "Categoria",
         "modules": [
-            "pydiagram",
-            "pydiagram",
-            "py_class_extractor",
-            "schemas"
+            "test_2"
         ],
         "relationships": [],
         "attributes": [
             {
-                "name": "name",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "args",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "return_value",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "encapsulation",
+                "name": "nome",
                 "data_type": null,
                 "encapsulation": "Public"
             }
         ],
-        "methods": []
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self",
+                    "nome"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "__str__",
+                "args": [
+                    "self"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            }
+        ]
     },
     {
-        "name": "RelationshipInformation",
+        "name": "Endereco",
         "modules": [
-            "pydiagram",
-            "pydiagram",
-            "py_class_extractor",
-            "schemas"
+            "test_2"
         ],
         "relationships": [],
         "attributes": [
             {
-                "name": "relation_type",
+                "name": "rua",
                 "data_type": null,
                 "encapsulation": "Public"
             },
             {
-                "name": "related",
+                "name": "numero",
                 "data_type": null,
                 "encapsulation": "Public"
             },
             {
-                "name": "modules",
+                "name": "cidade",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "estado",
+                "data_type": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "cep",
                 "data_type": null,
                 "encapsulation": "Public"
             }
         ],
-        "methods": []
+        "methods": [
+            {
+                "name": "__init__",
+                "args": [
+                    "self",
+                    "rua",
+                    "numero",
+                    "cidade",
+                    "estado",
+                    "cep"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "__str__",
+                "args": [
+                    "self"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            }
+        ]
     },
     {
-        "name": "ClassInformation",
+        "name": "Livro",
         "modules": [
-            "pydiagram",
-            "pydiagram",
-            "py_class_extractor",
-            "schemas"
+            "test_2"
         ],
         "relationships": [
             {
-                "relation_type": "inheritance",
-                "related": "SerializableToDict",
+                "relation_type": "association",
+                "related": "Autor",
                 "modules": [
-                    "pydiagram",
-                    "py_class_extractor",
-                    "file_management"
+                    "test_2"
                 ]
             },
             {
                 "relation_type": "association",
-                "related": "RelationshipInformation",
+                "related": "Categoria",
                 "modules": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "schemas"
-                ]
-            },
-            {
-                "relation_type": "association",
-                "related": "AttributeInformation",
-                "modules": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "schemas"
-                ]
-            },
-            {
-                "relation_type": "association",
-                "related": "FunctionInformation",
-                "modules": [
-                    "pydiagram",
-                    "pydiagram",
-                    "py_class_extractor",
-                    "schemas"
+                    "test_2"
                 ]
             }
         ],
         "attributes": [
             {
-                "name": "modules",
+                "name": "titulo",
                 "data_type": null,
                 "encapsulation": "Public"
             },
             {
-                "name": "name",
+                "name": "autor",
                 "data_type": null,
                 "encapsulation": "Public"
             },
             {
-                "name": "relationships",
+                "name": "categoria",
                 "data_type": null,
                 "encapsulation": "Public"
             },
             {
-                "name": "attributes",
+                "name": "ano_publicacao",
                 "data_type": null,
                 "encapsulation": "Public"
             },
             {
-                "name": "methods",
+                "name": "disponivel",
                 "data_type": null,
                 "encapsulation": "Public"
             }
         ],
         "methods": [
             {
-                "name": "to_dictionary",
+                "name": "__init__",
+                "args": [
+                    "self",
+                    "titulo",
+                    "autor",
+                    "categoria",
+                    "ano_publicacao"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "emprestar",
+                "args": [
+                    "self"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "devolver",
+                "args": [
+                    "self"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "__str__",
                 "args": [
                     "self"
                 ],
@@ -691,359 +263,38 @@
         ]
     },
     {
-        "name": "XmlElementFromString",
+        "name": "LivroFiccao",
         "modules": [
-            "pydiagram",
-            "pydiagram",
-            "uml_generator",
-            "base"
+            "test_2"
         ],
         "relationships": [
             {
                 "relation_type": "inheritance",
-                "related": "Element",
+                "related": "Livro",
                 "modules": [
-                    "xml",
-                    "etree",
-                    "ElementTree"
-                ]
-            }
-        ],
-        "attributes": [
-            {
-                "name": "root",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "text",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "tail",
-                "data_type": null,
-                "encapsulation": "Public"
-            }
-        ],
-        "methods": [
-            {
-                "name": "__init__",
-                "args": [
-                    "self",
-                    "string"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            }
-        ]
-    },
-    {
-        "name": "UMLRelationship",
-        "modules": [
-            "pydiagram",
-            "pydiagram",
-            "uml_generator",
-            "base"
-        ],
-        "relationships": [
-            {
-                "relation_type": "inheritance",
-                "related": "ABC",
-                "modules": [
-                    "abc"
-                ]
-            }
-        ],
-        "attributes": [],
-        "methods": [
-            {
-                "name": "__init__",
-                "args": [
-                    "self",
-                    "parent",
-                    "source",
-                    "target"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            }
-        ]
-    },
-    {
-        "name": "AttributeBuilder",
-        "modules": [
-            "pydiagram",
-            "pydiagram",
-            "uml_generator",
-            "builders",
-            "elements"
-        ],
-        "relationships": [],
-        "attributes": [
-            {
-                "name": "class_id",
-                "data_type": null,
-                "encapsulation": "Public"
-            }
-        ],
-        "methods": [
-            {
-                "name": "__init__",
-                "args": [
-                    "self",
-                    "class_id"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "build",
-                "args": [
-                    "self",
-                    "metadata",
-                    "dimensions"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            }
-        ]
-    },
-    {
-        "name": "StrokeBuilder",
-        "modules": [
-            "pydiagram",
-            "pydiagram",
-            "uml_generator",
-            "builders",
-            "elements"
-        ],
-        "relationships": [],
-        "attributes": [
-            {
-                "name": "class_id",
-                "data_type": null,
-                "encapsulation": "Public"
-            }
-        ],
-        "methods": [
-            {
-                "name": "__init__",
-                "args": [
-                    "self",
-                    "class_id"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "build",
-                "args": [
-                    "self",
-                    "dimensions"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            }
-        ]
-    },
-    {
-        "name": "MethodBuilder",
-        "modules": [
-            "pydiagram",
-            "pydiagram",
-            "uml_generator",
-            "builders",
-            "elements"
-        ],
-        "relationships": [],
-        "attributes": [
-            {
-                "name": "class_id",
-                "data_type": null,
-                "encapsulation": "Public"
-            }
-        ],
-        "methods": [
-            {
-                "name": "__init__",
-                "args": [
-                    "self",
-                    "class_id"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "build",
-                "args": [
-                    "self",
-                    "metadata",
-                    "dimensions"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            }
-        ]
-    },
-    {
-        "name": "RelationshipBuilder",
-        "modules": [
-            "pydiagram",
-            "pydiagram",
-            "uml_generator",
-            "builders",
-            "relationships"
-        ],
-        "relationships": [],
-        "attributes": [
-            {
-                "name": "parent",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "source",
-                "data_type": null,
-                "encapsulation": "Public"
-            }
-        ],
-        "methods": [
-            {
-                "name": "__init__",
-                "args": [
-                    "self",
-                    "parent",
-                    "source"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "build",
-                "args": [
-                    "self",
-                    "relationship_class",
-                    "target"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            }
-        ]
-    },
-    {
-        "name": "DrawIODiagram",
-        "modules": [
-            "pydiagram",
-            "pydiagram",
-            "uml_generator",
-            "elements"
-        ],
-        "relationships": [
-            {
-                "relation_type": "inheritance",
-                "related": "XmlElementFromString",
-                "modules": [
-                    "base"
-                ]
-            }
-        ],
-        "attributes": [
-            {
-                "name": "id",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "default_parent_id",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "xml_string",
-                "data_type": null,
-                "encapsulation": "Public"
-            }
-        ],
-        "methods": [
-            {
-                "name": "__init__",
-                "args": [
-                    "self",
-                    "name"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "append",
-                "args": [
-                    "self",
-                    "subelement"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "extend",
-                "args": [
-                    "self",
-                    "elements"
-                ],
-                "return_value": null,
-                "encapsulation": "Public"
-            }
-        ]
-    },
-    {
-        "name": "UMLClassDiagramElement",
-        "modules": [
-            "pydiagram",
-            "pydiagram",
-            "uml_generator",
-            "elements"
-        ],
-        "relationships": [
-            {
-                "relation_type": "inheritance",
-                "related": "Element",
-                "modules": [
-                    "xml",
-                    "etree",
-                    "ElementTree"
+                    "test_2"
                 ]
             },
             {
                 "relation_type": "association",
-                "related": "ClassHeader",
+                "related": "Autor",
                 "modules": [
-                    "pydiagram",
-                    "pydiagram",
-                    "uml_generator",
-                    "elements"
+                    "test_2"
+                ]
+            },
+            {
+                "relation_type": "association",
+                "related": "Categoria",
+                "modules": [
+                    "test_2"
                 ]
             }
         ],
         "attributes": [
             {
-                "name": "id",
+                "name": "tema",
                 "data_type": null,
                 "encapsulation": "Public"
-            },
-            {
-                "name": "_metadata",
-                "data_type": null,
-                "encapsulation": "Private"
-            },
-            {
-                "name": "_dimensions",
-                "data_type": null,
-                "encapsulation": "Private"
-            },
-            {
-                "name": "_parent",
-                "data_type": null,
-                "encapsulation": "Private"
             }
         ],
         "methods": [
@@ -1051,83 +302,70 @@
                 "name": "__init__",
                 "args": [
                     "self",
-                    "metadata",
-                    "dimensions",
-                    "parent"
+                    "titulo",
+                    "autor",
+                    "categoria",
+                    "ano_publicacao",
+                    "tema"
                 ],
                 "return_value": null,
                 "encapsulation": "Public"
             },
             {
-                "name": "_build_class",
+                "name": "__str__",
                 "args": [
                     "self"
                 ],
                 "return_value": null,
-                "encapsulation": "Private"
+                "encapsulation": "Public"
             }
         ]
     },
     {
-        "name": "ClassHeader",
+        "name": "Membro",
         "modules": [
-            "pydiagram",
-            "pydiagram",
-            "uml_generator",
-            "elements"
+            "test_2"
         ],
         "relationships": [
             {
                 "relation_type": "inheritance",
-                "related": "XmlElementFromString",
+                "related": "Pessoa",
                 "modules": [
-                    "base"
+                    "test_2"
+                ]
+            },
+            {
+                "relation_type": "association",
+                "related": "Endereco",
+                "modules": [
+                    "test_2"
+                ]
+            },
+            {
+                "relation_type": "association",
+                "related": "Livro",
+                "modules": [
+                    "test_2"
+                ]
+            },
+            {
+                "relation_type": "association",
+                "related": "Livro",
+                "modules": [
+                    "test_2"
+                ]
+            },
+            {
+                "relation_type": "association",
+                "related": "Livro",
+                "modules": [
+                    "test_2"
                 ]
             }
         ],
         "attributes": [
             {
-                "name": "x",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "x",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "y",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "y",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "width",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "width",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "height",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "height",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "xml_string",
+                "name": "emprestimos",
                 "data_type": null,
                 "encapsulation": "Public"
             }
@@ -1137,10 +375,26 @@
                 "name": "__init__",
                 "args": [
                     "self",
-                    "name",
-                    "dimensions",
-                    "parent",
-                    "id"
+                    "nome",
+                    "endereco"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "emprestar_livro",
+                "args": [
+                    "self",
+                    "livro"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "devolver_livro",
+                "args": [
+                    "self",
+                    "livro"
                 ],
                 "return_value": null,
                 "encapsulation": "Public"
@@ -1148,65 +402,36 @@
         ]
     },
     {
-        "name": "ClassMethod",
+        "name": "MembroPremium",
         "modules": [
-            "pydiagram",
-            "pydiagram",
-            "uml_generator",
-            "elements"
+            "test_2"
         ],
         "relationships": [
             {
                 "relation_type": "inheritance",
-                "related": "XmlElementFromString",
+                "related": "Membro",
                 "modules": [
-                    "base"
+                    "test_2"
+                ]
+            },
+            {
+                "relation_type": "association",
+                "related": "Endereco",
+                "modules": [
+                    "test_2"
+                ]
+            },
+            {
+                "relation_type": "association",
+                "related": "Livro",
+                "modules": [
+                    "test_2"
                 ]
             }
         ],
         "attributes": [
             {
-                "name": "x",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "x",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "y",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "y",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "width",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "width",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "height",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "height",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "xml_string",
+                "name": "limite_emprestimos",
                 "data_type": null,
                 "encapsulation": "Public"
             }
@@ -1216,11 +441,18 @@
                 "name": "__init__",
                 "args": [
                     "self",
-                    "dimensions",
-                    "encapsulation",
-                    "name",
-                    "args",
-                    "parent"
+                    "nome",
+                    "endereco",
+                    "limite_emprestimos"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "emprestar_livro",
+                "args": [
+                    "self",
+                    "livro"
                 ],
                 "return_value": null,
                 "encapsulation": "Public"
@@ -1228,65 +460,44 @@
         ]
     },
     {
-        "name": "ClassStroke",
+        "name": "Emprestimo",
         "modules": [
-            "pydiagram",
-            "pydiagram",
-            "uml_generator",
-            "elements"
+            "test_2"
         ],
         "relationships": [
             {
-                "relation_type": "inheritance",
-                "related": "XmlElementFromString",
+                "relation_type": "association",
+                "related": "Livro",
                 "modules": [
-                    "base"
+                    "test_2"
+                ]
+            },
+            {
+                "relation_type": "association",
+                "related": "Membro",
+                "modules": [
+                    "test_2"
                 ]
             }
         ],
         "attributes": [
             {
-                "name": "x",
+                "name": "livro",
                 "data_type": null,
                 "encapsulation": "Public"
             },
             {
-                "name": "x",
+                "name": "membro",
                 "data_type": null,
                 "encapsulation": "Public"
             },
             {
-                "name": "y",
+                "name": "data_emprestimo",
                 "data_type": null,
                 "encapsulation": "Public"
             },
             {
-                "name": "y",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "width",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "width",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "height",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "height",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "xml_string",
+                "name": "data_devolucao",
                 "data_type": null,
                 "encapsulation": "Public"
             }
@@ -1296,8 +507,18 @@
                 "name": "__init__",
                 "args": [
                     "self",
-                    "parent",
-                    "dimensions"
+                    "livro",
+                    "membro",
+                    "data_emprestimo",
+                    "data_devolucao"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "__str__",
+                "args": [
+                    "self"
                 ],
                 "return_value": null,
                 "encapsulation": "Public"
@@ -1305,65 +526,81 @@
         ]
     },
     {
-        "name": "ClassAttribute",
+        "name": "Biblioteca",
         "modules": [
-            "pydiagram",
-            "pydiagram",
-            "uml_generator",
-            "elements"
+            "test_2"
         ],
         "relationships": [
             {
-                "relation_type": "inheritance",
-                "related": "XmlElementFromString",
+                "relation_type": "association",
+                "related": "Livro",
                 "modules": [
-                    "base"
+                    "test_2"
+                ]
+            },
+            {
+                "relation_type": "association",
+                "related": "Membro",
+                "modules": [
+                    "test_2"
+                ]
+            },
+            {
+                "relation_type": "association",
+                "related": "Emprestimo",
+                "modules": [
+                    "test_2"
+                ]
+            },
+            {
+                "relation_type": "association",
+                "related": "Livro",
+                "modules": [
+                    "test_2"
+                ]
+            },
+            {
+                "relation_type": "association",
+                "related": "Membro",
+                "modules": [
+                    "test_2"
+                ]
+            },
+            {
+                "relation_type": "association",
+                "related": "Livro",
+                "modules": [
+                    "test_2"
+                ]
+            },
+            {
+                "relation_type": "association",
+                "related": "Membro",
+                "modules": [
+                    "test_2"
+                ]
+            },
+            {
+                "relation_type": "association",
+                "related": "Emprestimo",
+                "modules": [
+                    "test_2"
                 ]
             }
         ],
         "attributes": [
             {
-                "name": "x",
+                "name": "livros",
                 "data_type": null,
                 "encapsulation": "Public"
             },
             {
-                "name": "x",
+                "name": "membros",
                 "data_type": null,
                 "encapsulation": "Public"
             },
             {
-                "name": "y",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "y",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "width",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "width",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "height",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "height",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "xml_string",
+                "name": "emprestimos",
                 "data_type": null,
                 "encapsulation": "Public"
             }
@@ -1372,180 +609,67 @@
             {
                 "name": "__init__",
                 "args": [
-                    "self",
-                    "parent",
-                    "encapsulation",
-                    "name",
-                    "data_type",
-                    "dimensions"
+                    "self"
                 ],
                 "return_value": null,
                 "encapsulation": "Public"
-            }
-        ]
-    },
-    {
-        "name": "InheritanceRelationship",
-        "modules": [
-            "pydiagram",
-            "pydiagram",
-            "uml_generator",
-            "relationships"
-        ],
-        "relationships": [
-            {
-                "relation_type": "inheritance",
-                "related": "XmlElementFromString",
-                "modules": [
-                    "base"
-                ]
             },
             {
-                "relation_type": "inheritance",
-                "related": "UMLRelationship",
-                "modules": [
-                    "base"
-                ]
-            }
-        ],
-        "attributes": [
-            {
-                "name": "unique_id",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "xml_string",
-                "data_type": null,
-                "encapsulation": "Public"
-            }
-        ],
-        "methods": [
-            {
-                "name": "__init__",
+                "name": "adicionar_livro",
                 "args": [
                     "self",
-                    "parent",
-                    "source",
-                    "target"
+                    "livro"
                 ],
                 "return_value": null,
                 "encapsulation": "Public"
-            }
-        ]
-    },
-    {
-        "name": "AssociationRelationship",
-        "modules": [
-            "pydiagram",
-            "pydiagram",
-            "uml_generator",
-            "relationships"
-        ],
-        "relationships": [
-            {
-                "relation_type": "inheritance",
-                "related": "XmlElementFromString",
-                "modules": [
-                    "base"
-                ]
             },
             {
-                "relation_type": "inheritance",
-                "related": "UMLRelationship",
-                "modules": [
-                    "base"
-                ]
-            }
-        ],
-        "attributes": [
-            {
-                "name": "unique_id",
-                "data_type": null,
-                "encapsulation": "Public"
-            },
-            {
-                "name": "xml_string",
-                "data_type": null,
-                "encapsulation": "Public"
-            }
-        ],
-        "methods": [
-            {
-                "name": "__init__",
+                "name": "adicionar_membro",
                 "args": [
                     "self",
-                    "parent",
-                    "source",
-                    "target"
+                    "membro"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "registrar_emprestimo",
+                "args": [
+                    "self",
+                    "livro",
+                    "membro",
+                    "data_emprestimo",
+                    "data_devolucao"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "encontrar_livro",
+                "args": [
+                    "self",
+                    "titulo"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "encontrar_membro",
+                "args": [
+                    "self",
+                    "nome"
+                ],
+                "return_value": null,
+                "encapsulation": "Public"
+            },
+            {
+                "name": "__str__",
+                "args": [
+                    "self"
                 ],
                 "return_value": null,
                 "encapsulation": "Public"
             }
         ]
-    },
-    {
-        "name": "Dimensions",
-        "modules": [
-            "pydiagram",
-            "pydiagram",
-            "uml_generator",
-            "utils"
-        ],
-        "relationships": [
-            {
-                "relation_type": "inheritance",
-                "related": "namedtuple('Dimensions', ['x', 'y', 'width', 'height'])",
-                "modules": [
-                    "collections"
-                ]
-            }
-        ],
-        "attributes": [
-            {
-                "name": "__slots__",
-                "data_type": null,
-                "encapsulation": "Public"
-            }
-        ],
-        "methods": []
-    },
-    {
-        "name": "NodeVisitor",
-        "modules": [
-            "ast"
-        ],
-        "relationships": [],
-        "attributes": [],
-        "methods": []
-    },
-    {
-        "name": "ABC",
-        "modules": [
-            "abc"
-        ],
-        "relationships": [],
-        "attributes": [],
-        "methods": []
-    },
-    {
-        "name": "Element",
-        "modules": [
-            "xml",
-            "etree",
-            "ElementTree"
-        ],
-        "relationships": [],
-        "attributes": [],
-        "methods": []
-    },
-    {
-        "name": "namedtuple('Dimensions', ['x', 'y', 'width', 'height'])",
-        "modules": [
-            "collections"
-        ],
-        "relationships": [],
-        "attributes": [],
-        "methods": []
     }
 ]

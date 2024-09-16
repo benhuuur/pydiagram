@@ -3,7 +3,6 @@ import os
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
-import matplotlib.pyplot as plt
 
 from pydiagram.py_class_extractor import generate_classes_dicts_from_directory, generate_classes_dicts_from_file
 from pydiagram.py_class_extractor.ast_management import parse_ast_from_file
@@ -22,6 +21,8 @@ logging.basicConfig(level=logging.INFO,
 
 
 def has_common_element(arr1, arr2):
+    if len(arr1) == 0 and len(arr2) == 0:
+        return True
     return bool(set(arr1) & set(arr2))
 
 
@@ -30,7 +31,7 @@ def install_graphviz():
     try:
         # Check if Graphviz is already installed
         result = subprocess.run(
-            ['winget', 'list', 'Graphviz.Graphviz'], capture_output=True, text=True, check=True)
+            ['winget', 'list', 'Graphviz.Graphviz'], capture_output=True, text=True)
         if "Graphviz" in result.stdout:
             logging.info("Graphviz is already installed.")
             return
@@ -92,7 +93,7 @@ def autolayout_class_diagram(metadata):
             if target_name in G.nodes:
                 G.add_edge(source_name, target_name)
 
-    pos = pydot_layout(G, prog='sfdp')
+    pos = pydot_layout(G, prog='dot')
     return pos
 
 
@@ -103,8 +104,7 @@ def create_uml_classes(metadata, diagram, positions):
         sanitized_name = sanitize_class_name(class_metadata["name"])
         if sanitized_name in positions:
             x, y = positions[sanitized_name]
-            dimensions = Dimensions(x=x * 2, y=y * 4, width=160, height=26)
-            print(dimensions)
+            dimensions = Dimensions(x=x*3, y=y*5, width=160, height=26)
             UML_class = UMLClassDiagramElement(
                 class_metadata, dimensions, diagram.default_parent_id)
             classes.append(UML_class)
@@ -138,13 +138,17 @@ def main():
     add_graphviz_to_path()
 
     metadata = generate_classes_dicts_from_file(
-        r"C:\Users\Aluno\Desktop\pydiagram\teste.py")
-    metadata = generate_classes_dicts_from_directory(
-        r"C:\Users\Aluno\Desktop\pydiagram\pydiagram")
+        r"C:\Users\Aluno\Desktop\pydiagram\tests\test_2.py")
+    
+    # metadata = generate_classes_dicts_from_directory(
+    #     r"C:\Users\Aluno\Desktop\pydiagram\pydiagram")
+    
+    # metadata = generate_classes_dicts_from_directory(
+    #     r"C:\Users\Aluno\AppData\Local\Programs\Python\Python312\Lib\json")
+    
     save_data_to_json("class.json", metadata)
 
     positions = autolayout_class_diagram(metadata)
-    print(positions)
 
     diagram = DrawIODiagram("pydiagram")
     classes = create_uml_classes(metadata, diagram, positions)

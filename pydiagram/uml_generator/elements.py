@@ -242,8 +242,9 @@ class ClassAttribute(XmlElementFromString):
             dimensions (utils.Dimensions): Dimensions of the attribute element.
         """
         x, y, width, height = dimensions
+# <mxCell id="attribute-{uuid.uuid4()}-{parent}" value="{encapsulation} {name}: {data_type}"
         xml_string = f"""
-<mxCell id="attribute-{uuid.uuid4()}-{parent}" value="{encapsulation} {name}: {data_type}"
+<mxCell id="attribute-{uuid.uuid4()}-{parent}" value="{encapsulation} {name}"
         style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;"
         parent="{parent}" vertex="1">
     <mxGeometry x="{x}" y="{y}" width="{width}" height="{height}" as="geometry" />
