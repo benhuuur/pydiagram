@@ -68,7 +68,7 @@ class AssociationRelationship(XmlElementFromString, UMLRelationship):
         # Define the XML string representing the relationship
         xml_string = f"""
 <mxCell id="{unique_id}"
-        style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;strokeColor=#ff0000;"
+        style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;strokeColor=#000000;"
         parent="{parent}" source="{source}" target="{target}" edge="1">
     <mxGeometry relative="1" as="geometry" />
 </mxCell>
