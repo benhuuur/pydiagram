@@ -158,7 +158,7 @@ class ClassHeader(XmlElementFromString):
         x, y, width, height = dimensions
         xml_string = f"""
 <mxCell id="{id}" value="{name}"
-style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;"
+style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;swimlaneFillColor=default;"
 parent="{parent}" vertex="1">
     <mxGeometry x="{x}" y="{y}" width="{width}" height="{height}" as="geometry">
     <mxRectangle x="{x}" y="{y}" width="{width-20}" height="30" as="alternateBounds" />

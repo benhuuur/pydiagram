@@ -347,20 +347,6 @@
                 "modules": [
                     "test_2"
                 ]
-            },
-            {
-                "relation_type": "association",
-                "related": "Livro",
-                "modules": [
-                    "test_2"
-                ]
-            },
-            {
-                "relation_type": "association",
-                "related": "Livro",
-                "modules": [
-                    "test_2"
-                ]
             }
         ],
         "attributes": [
@@ -531,41 +517,6 @@
             "test_2"
         ],
         "relationships": [
-            {
-                "relation_type": "association",
-                "related": "Livro",
-                "modules": [
-                    "test_2"
-                ]
-            },
-            {
-                "relation_type": "association",
-                "related": "Membro",
-                "modules": [
-                    "test_2"
-                ]
-            },
-            {
-                "relation_type": "association",
-                "related": "Emprestimo",
-                "modules": [
-                    "test_2"
-                ]
-            },
-            {
-                "relation_type": "association",
-                "related": "Livro",
-                "modules": [
-                    "test_2"
-                ]
-            },
-            {
-                "relation_type": "association",
-                "related": "Membro",
-                "modules": [
-                    "test_2"
-                ]
-            },
             {
                 "relation_type": "association",
                 "related": "Livro",

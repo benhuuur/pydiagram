@@ -2,6 +2,7 @@ import ast
 from typing import List, Dict, Union, Tuple
 from pydiagram.py_class_extractor.schemas import ClassInformation, FunctionInformation, AttributeInformation, RelationshipInformation
 
+
 class ClassDefCollector(ast.NodeVisitor):
     """
     Collects ClassDef nodes from the AST.
@@ -169,7 +170,8 @@ class ClassMetadataInspector(ast.NodeVisitor):
                 attribute_name = node.attr
                 self.attributes.append(AttributeInformation(
                     name=attribute_name,
-                    encapsulation=self._get_encapsulation_level(attribute_name),
+                    encapsulation=self._get_encapsulation_level(
+                        attribute_name),
                     data_type=None
                 ))
             return node.attr
@@ -409,7 +411,7 @@ class ClassRelationshipInspector(ast.NodeVisitor):
         if isinstance(function_name, str):
             resolved_function_name = self._resolve_aliases(function_name)
             for info in self.class_info_list:
-                if info.name in resolved_function_name and self.current_class_node.name != info.name:
+                if info.name in resolved_function_name and self.current_class_node.name != info.name and not any(relationship.related == info.name and relationship.relation_type == "association" for relationship in self.relationships):
                     self.relationships.append(RelationshipInformation(
                         relation_type="association",
                         related=info.name,
@@ -480,7 +482,7 @@ class ClassRelationshipInspector(ast.NodeVisitor):
             annotation_str = self.visit(node.annotation)
             resolved_annotation = self._resolve_aliases(annotation_str)
             for info in self.class_info_list:
-                if info.name in resolved_annotation and self.current_class_node.name != info.name:
+                if info.name in resolved_annotation and self.current_class_node.name != info.name and not any(relationship.related == info.name and relationship.relation_type == "association" for relationship in self.relationships):
                     self.relationships.append(RelationshipInformation(
                         relation_type="association",
                         related=info.name,
@@ -572,7 +574,8 @@ class AliasInspector(ast.NodeVisitor):
         for alias_node in node.names:
             alias_mapping = self._extract_aliases(alias_node)
             if node.module:
-                alias_mapping = {key: f"{node.module}.{value}" for key, value in alias_mapping.items()}
+                alias_mapping = {key: f"{node.module}.{
+                    value}" for key, value in alias_mapping.items()}
             self.alias_map.update(alias_mapping)
 
     def _extract_aliases(self, alias_node: ast.alias) -> Dict[str, str]:

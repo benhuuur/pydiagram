@@ -31,7 +31,7 @@ def install_graphviz():
     try:
         # Check if Graphviz is already installed
         result = subprocess.run(
-            ['winget', 'list', 'Graphviz.Graphviz'], capture_output=True, text=True)
+            ['winget', 'search', 'Graphviz.Graphviz', '--accept-source-agreements'], capture_output=True, text=True)
         if "Graphviz" in result.stdout:
             logging.info("Graphviz is already installed.")
             return
@@ -117,6 +117,7 @@ def create_uml_classes(metadata, diagram, positions):
 def create_relationships(metadata, classes, diagram):
     """Create relationships between UML classes."""
     relationships = []
+    view = []
     for source_index, source_class_metadata in enumerate(metadata):
         source_id = classes[source_index].id
         for relationship in source_class_metadata["relationships"]:
@@ -125,9 +126,11 @@ def create_relationships(metadata, classes, diagram):
                 if (relationship["related"] == target_class_metadata["name"] and
                         has_common_element(relationship["modules"], target_class_metadata["modules"])):
                     if relationship["relation_type"] == "inheritance":
+                        view.append((source_class_metadata["name"], target_class_metadata["name"]))
                         relationships.append(builder.build(
                             InheritanceRelationship, classes[target_index].id))
                     elif relationship["relation_type"] == "association":
+                        view.append((source_class_metadata["name"], target_class_metadata["name"]))
                         relationships.append(builder.build(
                             AssociationRelationship, classes[target_index].id))
     return relationships
